@@ -40,11 +40,12 @@ citation:
   publisher: "Société Française de Statistique"
   issn: "2824-7795"
 bibliography: references.bib
-github-user: herbps10
+github-user: computorg
 logo: "true"
-repo: "template-computo-r"
-draft: true # set to false once the build is running
-published: false # will be set to true once accepted
+repo: "published-202407-susmann-adaptive-conformal"
+draft: false # set to false once the build is running
+published: true # will be set to true once accepted
+google-scholar: true
 format:
   computo-html: 
     code-fold: true
