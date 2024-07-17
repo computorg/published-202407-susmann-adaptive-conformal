@@ -1,4 +1,0 @@
-project:
-  title: "paper"
-  render: 
-    - paper.qmd
