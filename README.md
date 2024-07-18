@@ -12,3 +12,13 @@ Conformal Inference (CI) is a popular approach for generating finite sample pred
 
 ## Build instructions
 The main paper can be found in `paper.qmd`. Several helper functions, such as functions that execute the simulation studies, are defined in `helpers.R`. 
+
+
+
+[![build status](https://github.com/computorg/published-202407-susmann-adaptive-conformal/workflows/build/badge.svg)](https://github.com/computorg/published-202407-susmann-adaptive-conformal/)
+[![](https://img.shields.io/github/last-commit/computorg/published-202407-susmann-adaptive-conformal.svg)](https://github.com/computorg/published-202407-susmann-adaptive-conformal/commits/main)
+[![DOI:xxx/xxx-xxx](https://img.shields.io/badge/DOI-10.57750/edan--5f53-034E79.svg)](https://doi.org/10.57750/edan-5f53)
+[![HTML](https://img.shields.io/badge/article-HTML-034E79)](https://computo.sfds.asso.fr/published-202407-susmann-adaptive-conformal/)
+[![PDF](https://img.shields.io/badge/article-PDF-034E79)](https://computo.sfds.asso.fr/published-202407-susmann-adaptive-conformal/published-202407-susmann-adaptive-conformal.pdf)
+[![reviews](https://img.shields.io/badge/review-report%201-blue)](https://github.com/computorg/published-202407-susmann-adaptive-conformal/issues/2)
+[![Creative Commons License](https://i.creativecommons.org/l/by/4.0/80x15.png)](http://creativecommons.org/licenses/by/4.0/)
