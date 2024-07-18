@@ -2,14 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.1">
+<meta name="generator" content="quarto-1.6.2">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Herbert Susmann">
 <meta name="author" content="Antoine Chambaz">
 <meta name="author" content="Julie Josse">
-<meta name="dcterms.date" content="2024-07-17">
+<meta name="dcterms.date" content="2025-06-07">
 <meta name="keywords" content="Conformal inference, Adaptive conformal inference, time series, R">
 <meta name="description" content="Conformal Inference (CI) is a popular approach for generating finite sample prediction intervals based on the output of any point prediction method when data are exchangeable. Adaptive Conformal Inference (ACI) algorithms extend CI to the case of sequentially observed data, such as time series, and exhibit strong theoretical guarantees without having to assume exchangeability of the observed data. The common thread that unites algorithms in the ACI family is that they adaptively adjust the width of the generated prediction intervals in response to the observed data. We provide a detailed description of five ACI algorithms and their theoretical guarantees, and test their performance in simulation studies. We then present a case study of producing prediction intervals for influenza incidence in the United States based on black-box point forecasts. Implementations of all the algorithms are released as an open-source R package, AdaptiveConformal, which also includes tools for visualizing and summarizing conformal prediction intervals.">
 
@@ -164,12 +164,12 @@ window.Quarto = {
 <meta name="citation_author" content="Herbert Susmann">
 <meta name="citation_author" content="Antoine Chambaz">
 <meta name="citation_author" content="Julie Josse">
-<meta name="citation_publication_date" content="2024-07-17">
-<meta name="citation_cover_date" content="2024-07-17">
-<meta name="citation_year" content="2024">
-<meta name="citation_online_date" content="2024-07-17">
+<meta name="citation_publication_date" content="2025-06-07">
+<meta name="citation_cover_date" content="2025-06-07">
+<meta name="citation_year" content="2025">
+<meta name="citation_online_date" content="2025-06-07">
 <meta name="citation_fulltext_html_url" content="https://computo.sfds.asso.fr/template-computo-quarto">
-<meta name="citation_doi" content="xxxx">
+<meta name="citation_doi" content="10.57750/edan-5f53">
 <meta name="citation_issn" content="2824-7795">
 <meta name="citation_language" content="en">
 <meta name="citation_journal_title" content="Computo">
@@ -276,14 +276,14 @@ ISSN 2824-7795</p>
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">July 17, 2024</p>
+        <p class="date">June 7, 2025</p>
       </div>
     </div>
                                     
       <div>
       <div class="quarto-title-meta-heading">Modified</div>
       <div class="quarto-title-meta-contents">
-        <p class="date-modified">July 17, 2024</p>
+        <p class="date-modified">July 18, 2024</p>
       </div>
     </div>
       
@@ -567,7 +567,7 @@ y_t &amp;\sim N(0, \sigma_t^2), \quad t \in \llbracket T \rrbracket, \\
 </span> For demonstration purposes we assume we have access to unbiased predictions <span class="math inline">\hat{\mu}_t = 0</span> for all <span class="math inline">t \in \llbracket T \rrbracket</span>. Throughout we set the target empirical coverage to <span class="math inline">\alpha = 0.8</span>.</p>
 <section id="adaptive-conformal-inference-aci" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="adaptive-conformal-inference-aci"><span class="header-section-number">3.1</span> Adaptive Conformal Inference (ACI)</h2>
-<div id="algo-aci" class="pseudocode-container" data-pseudocode-index="1" data-indent-size="1.2em" data-line-number="true" data-line-number-punc=":" data-comment-delimiter="//" data-no-end="false" data-alg-title="Algorithm">
+<div id="algo-aci" class="pseudocode-container" data-line-number-punc=":" data-line-number="true" data-pseudocode-index="1" data-alg-title="Algorithm" data-indent-size="1.2em" data-no-end="false" data-comment-delimiter="//">
 <div class="pseudocode">
 \begin{algorithm} \caption{Adaptive Conformal Inference} \begin{algorithmic} \State \textbf{Input:} starting value $\theta_1$, learning rate $\gamma &gt; 0$. \For{$t = 1, 2, \dots, T$} \State \textbf{Output:} prediction interval $\widehat{C}_t(\theta_t)$. \State Observe $y_t$. \State Evaluate $\mathrm{err}_t = \mathbb{I}[y_t \not\in \widehat{C}_t(\theta_t)]$. \State Update $\theta_{t+1} = \theta_t + \gamma (\mathrm{err}_t - (1 - \alpha))$. \EndFor \end{algorithmic} \end{algorithm}
 </div>
@@ -619,7 +619,7 @@ Figure&nbsp;1: Example 80% prediction intervals from the ACI algorithm for diffe
 </section>
 <section id="aggregated-adaptive-conformal-inference-agaci" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="aggregated-adaptive-conformal-inference-agaci"><span class="header-section-number">3.2</span> Aggregated Adaptive Conformal Inference (AgACI)</h2>
-<div id="algo-agaci" class="pseudocode-container" data-pseudocode-index="2" data-indent-size="1.2em" data-line-number="true" data-line-number-punc=":" data-comment-delimiter="//" data-no-end="false" data-alg-title="Algorithm">
+<div id="algo-agaci" class="pseudocode-container" data-line-number-punc=":" data-line-number="true" data-pseudocode-index="2" data-alg-title="Algorithm" data-indent-size="1.2em" data-no-end="false" data-comment-delimiter="//">
 <div class="pseudocode">
 \begin{algorithm} \caption{Aggregated Adaptive Conformal Inference} \begin{algorithmic} \State \textbf{Input:} candidate learning rates $(\gamma_k)_{1 \leq k \leq K }$, starting value $\theta_1$. \State Initialize lower and upper BOA algorithms $\mathcal{B}^\ell := \texttt{BOA}(\alpha \leftarrow (1 - \alpha) / 2)$ and $\mathcal{B}^u := \texttt{BOA}(\alpha \leftarrow (1 - (1 - \alpha)/2))$. \For{$k = 1, \dots, K$} \State Initialize ACI $\mathcal{A}_k = \texttt{ACI}(\alpha \leftarrow \alpha, \gamma \leftarrow \gamma_k, \theta_1 \leftarrow \theta_1)$. \EndFor \For{$t = 1, 2, \dots, T$} \For{$k = 1, \dots, K$} \State Retrieve candidate prediction interval $[\ell^k_{t}, u^k_{t}]$ from $\mathcal{A}_k$. \EndFor \State Compute aggregated lower bound $\tilde{\ell}_t := \mathcal{B}^\ell((\ell^k_t : k \in \{ 1, \dots, K \}))$. \State Compute aggregated upper bound $\tilde{u}_t := \mathcal{B}^u((u^k_t : k \in \{ 1, \dots, K \}))$. \State \textbf{Output:} prediction interval $[\tilde{\ell}_t, \tilde{u}_t]$. \State Observe $y_t$. \For{$k = 1, \dots, K$} \State Update $\mathcal{A}_k$ with observation $y_t$. \EndFor \State Update $\mathcal{B}^\ell$ with observed outcome $y_t$. \State Update $\mathcal{B}^u$ with observed outcome $y_t$. \EndFor \end{algorithmic} \end{algorithm}
 </div>
@@ -650,7 +650,7 @@ Figure&nbsp;2: Example 80% prediction intervals from the AgACI algorithm with st
 </section>
 <section id="dynamically-tuned-adaptive-conformal-inference-dtaci" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="dynamically-tuned-adaptive-conformal-inference-dtaci"><span class="header-section-number">3.3</span> Dynamically-tuned Adaptive Conformal Inference (DtACI)</h2>
-<div id="algo-faci" class="pseudocode-container" data-pseudocode-index="3" data-indent-size="1.2em" data-line-number="true" data-line-number-punc=":" data-comment-delimiter="//" data-no-end="false" data-alg-title="Algorithm">
+<div id="algo-faci" class="pseudocode-container" data-line-number-punc=":" data-line-number="true" data-pseudocode-index="3" data-alg-title="Algorithm" data-indent-size="1.2em" data-no-end="false" data-comment-delimiter="//">
 <div class="pseudocode">
 \begin{algorithm} \caption{Dynamically-tuned Adaptive Conformal Inference} \begin{algorithmic} \State \textbf{Input:} starting value $\theta_1$, candidate learning rates $(\gamma_k)_{1 \leq k \leq K }$, parameters $\sigma, \eta$. \For{$k = 1, \dots, K$} \State Initialize expert $\mathcal{A}_k = \texttt{ACI}(\alpha \leftarrow \alpha, \gamma \leftarrow \gamma_k, \theta_1 \leftarrow \theta_1)$. \EndFor \For{$t = 1, 2, \dots, T$} \State Define $p_t^k := p_t^k / \sum_{i=1}^K p_t^i$, for all $1 \leq k \leq K$. \State Set $\theta_t = \sum_{k=1}^K \theta_t^k p_t^k$. \State \textbf{Output:} prediction interval $\widehat{C}_t(\theta_t)$. \State Observe $y_t$ and compute $r_t$. \State $\bar{w}_{t}^k \gets p_t^k \exp(-\eta L^\alpha(\theta_t^k, r_t))$, for all $1 \leq k \leq K$. \State $\bar{W}_t \gets \sum_{i=1}^K \bar{w}_t^i$. \State $p_{t+1}^k \gets (1 - \sigma) \bar{w}_t^k + \bar{W}_t \sigma / K$. \State Set $\mathrm{err}_t := \mathbb{I}[y_t \not\in \widehat{C}_t(\theta_t)]$. \For{$k = 1, \dots, K$} \State Update ACI $\mathcal{A}_k$ with $y_t$ and obtain $\theta_{t+1}^k$. \EndFor \EndFor \end{algorithmic} \end{algorithm}
 </div>
@@ -703,7 +703,7 @@ Figure&nbsp;3: Example 80% prediction intervals generated by the DtACI algorithm
 </section>
 <section id="scale-free-online-gradient-descent-sf-ogd" class="level2" data-number="3.4">
 <h2 data-number="3.4" class="anchored" data-anchor-id="scale-free-online-gradient-descent-sf-ogd"><span class="header-section-number">3.4</span> Scale-Free Online Gradient Descent (SF-OGD)</h2>
-<div id="algo-sfogd" class="pseudocode-container" data-pseudocode-index="4" data-indent-size="1.2em" data-line-number="true" data-line-number-punc=":" data-comment-delimiter="//" data-no-end="false" data-alg-title="Algorithm">
+<div id="algo-sfogd" class="pseudocode-container" data-line-number-punc=":" data-line-number="true" data-pseudocode-index="4" data-alg-title="Algorithm" data-indent-size="1.2em" data-no-end="false" data-comment-delimiter="//">
 <div class="pseudocode">
 \begin{algorithm} \caption{Scale-Free Online Gradient Descent} \begin{algorithmic} \State \textbf{Input:} starting value $\theta_1$, learning rate $\gamma &gt; 0$. \For{$t = 1, 2, \dots, T$} \State \textbf{Output:} prediction interval $\widehat{C}_t(\theta_t)$. \State Observe $y_t$ and compute $r_t$. \State Update $\theta_{t+1} = \theta_t - \gamma \frac{\nabla L^\alpha(\theta_t, r_t)}{\sqrt{\sum_{i=1}^t} \| \nabla L^\alpha(\theta_i, r_i) \|_2^2}$. \EndFor \end{algorithmic} \end{algorithm}
 </div>
@@ -742,7 +742,7 @@ Figure&nbsp;4: Example 80% prediction intervals generated by the SF-OGD algorith
 </section>
 <section id="strongly-adaptive-online-conformal-prediction-saocp" class="level2" data-number="3.5">
 <h2 data-number="3.5" class="anchored" data-anchor-id="strongly-adaptive-online-conformal-prediction-saocp"><span class="header-section-number">3.5</span> Strongly Adaptive Online Conformal Prediction (SAOCP)</h2>
-<div id="algo-saocp" class="pseudocode-container" data-pseudocode-index="5" data-indent-size="1.2em" data-line-number="true" data-line-number-punc=":" data-comment-delimiter="//" data-no-end="false" data-alg-title="Algorithm">
+<div id="algo-saocp" class="pseudocode-container" data-line-number-punc=":" data-line-number="true" data-pseudocode-index="5" data-alg-title="Algorithm" data-indent-size="1.2em" data-no-end="false" data-comment-delimiter="//">
 <div class="pseudocode">
 \begin{algorithm} \caption{Strongly Adaptive Online Conformal Prediction} \begin{algorithmic} \State \textbf{Input:} initial value $\theta_0$, learning rate $\gamma &gt; 0$. \For{$t = 1, 2, \dots, T$} \State Initialize expert $\mathcal{A}_t = \texttt{SF-OGD}(\alpha \leftarrow \alpha, \gamma \leftarrow \gamma, \theta_1 \leftarrow \theta_{t-1})$, set weight $p_t^t = 0$. \State Compute active set $\mathrm{Active}(t) = \{ i \in \llbracket T \rrbracket : t - L(i) &lt; i \leq t \}$ (see below for definition of $L(t)$). \State Compute prior probability $\pi_i \propto i^{-2} (1 + \lfloor \log_2 i \rfloor )^{-1} \mathbb{I}[i \in \mathrm{Active}(t)]$. \State Compute un-normalized probability $\hat{p}_i = \pi_i [p_{t,i}]_+$ for all $i \in \llbracket t \rrbracket$. \State Normalize $p = \hat{p} / \| \hat{p} \|_1 \in \Delta^t$ if $\| \hat{p} \|_1 &gt; 0$, else $p = \pi$. \State Set $\theta_t = \sum_{i \in \mathrm{Active}(t)} p_i \theta_t^i$ (for $t \geq 2$), and $\theta_t = 0$ for $t = 1$. \State \textbf{Output:} prediction set $\widehat{C}_t(\theta_t)$. \State Observe $y_t$ and compute $r_t$. \For{$i \in \mathrm{Active}(t)$} \State Update expert $\mathcal{A}_t$ with $y_t$ and obtain $\theta_{t+1}^i$. \State Compute $g_t^i = \begin{cases} \frac{1}{D}\left(L^\alpha(\theta_t, r_t) - L^\alpha(\theta_t^i, r_t)\right) &amp; p_t^i &gt; 0 \\ \frac{1}{D}\left[L^\alpha(\theta_t, r_t) - L^\alpha(\theta_t^i, r_t))\right]_+ &amp; p_t^i \leq 0 \\ \end{cases}$. \State Update expert weight $p_{t+1}^i = \frac{1}{t - i + 1}\left( \sum_{j=i}^t g_j^i \right) \left(1 + \sum_{j=i}^t p_j^i g_j^i \right)$. \EndFor \EndFor \end{algorithmic} \end{algorithm}
 </div>
@@ -854,15 +854,15 @@ Mean interval loss: 0.498</code></pre>
 <summary>Hide/Show the code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>simulate <span class="ot">&lt;-</span> <span class="cf">function</span>(seed, psi, xi, <span class="at">N =</span> <span class="fl">1e3</span>) {</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(seed)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  s <span class="ot">&lt;-</span> <span class="dv">10</span></span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  innov_scale <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(s <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> psi<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> psi <span class="sc">*</span> xi <span class="sc">+</span> xi<span class="sc">^</span><span class="dv">2</span>))</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  X <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">runif</span>(<span class="dv">6</span> <span class="sc">*</span> N), <span class="at">ncol =</span> <span class="dv">6</span>, <span class="at">nrow =</span> N)</span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colnames</span>(X) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"X"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>)</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  epsilon <span class="ot">&lt;-</span> <span class="fu">arima.sim</span>(<span class="at">n =</span> N, <span class="at">model =</span> <span class="fu">list</span>(<span class="at">ar =</span> psi, <span class="at">ma =</span> xi), <span class="at">sd =</span> innov_scale)</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">&lt;-</span> <span class="dv">10</span> <span class="sc">*</span> <span class="fu">sin</span>(pi <span class="sc">*</span> X[,<span class="dv">1</span>] <span class="sc">*</span> X[,<span class="dv">2</span>]) <span class="sc">+</span> <span class="dv">20</span> <span class="sc">*</span> (X[,<span class="dv">3</span>] <span class="sc">-</span> <span class="fl">0.5</span>)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="dv">10</span> <span class="sc">*</span> X[,<span class="dv">4</span>] <span class="sc">+</span> <span class="dv">5</span> <span class="sc">*</span> X[,<span class="dv">5</span>]</span>
 <span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> mu <span class="sc">+</span> epsilon</span>
 <span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>(X) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">y =</span> y)</span>
@@ -885,36 +885,36 @@ Mean interval loss: 0.498</code></pre>
 <span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="cf">function</span>(data, preds, method, alpha, <span class="at">p =</span> <span class="cn">NULL</span>) {</span>
 <span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(<span class="sc">!</span><span class="fu">is.null</span>(p)) <span class="fu">p</span>()</span>
-<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>  D <span class="ot">&lt;-</span> <span class="fu">max</span>(<span class="fu">abs</span>(data<span class="sc">$</span>y <span class="sc">-</span> preds)[<span class="dv">200</span><span class="sc">:</span><span class="dv">249</span>])</span>
 <span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>  gamma <span class="ot">&lt;-</span> D <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">3</span>)</span>
-<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>  interval_constructor <span class="ot">=</span> <span class="fu">case_when</span>(</span>
 <span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>    method <span class="sc">==</span> <span class="st">"AgACI"</span> <span class="sc">~</span> <span class="st">"conformal"</span>,</span>
 <span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>    method <span class="sc">==</span> <span class="st">"DtACI"</span> <span class="sc">~</span> <span class="st">"conformal"</span>,</span>
 <span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>    method <span class="sc">==</span> <span class="st">"SF-OGD"</span> <span class="sc">~</span> <span class="st">"linear"</span>,</span>
 <span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>    method <span class="sc">==</span> <span class="st">"SAOCP"</span> <span class="sc">~</span> <span class="st">"linear"</span></span>
 <span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(interval_constructor <span class="sc">==</span> <span class="st">"linear"</span>) {</span>
 <span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>    gamma_grid <span class="ot">=</span> <span class="fu">seq</span>(<span class="fl">0.1</span>, <span class="dv">1</span>, <span class="fl">0.1</span>)</span>
 <span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span> {</span>
 <span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>    gamma_grid <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.001</span>, <span class="fl">0.002</span>, <span class="fl">0.004</span>, <span class="fl">0.008</span>, <span class="fl">0.016</span>, <span class="fl">0.032</span>, <span class="fl">0.064</span>, <span class="fl">0.128</span>)</span>
 <span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a>  parameters <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a>    <span class="at">interval_constructor =</span> interval_constructor, </span>
-<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a>    <span class="at">D =</span> D, </span>
-<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a>    <span class="at">gamma =</span> gamma, </span>
+<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a>    <span class="at">interval_constructor =</span> interval_constructor,</span>
+<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a>    <span class="at">D =</span> D,</span>
+<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a>    <span class="at">gamma =</span> gamma,</span>
 <span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a>    <span class="at">gamma_grid =</span> gamma_grid</span>
 <span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aci</span>(</span>
-<span id="cb6-60"><a href="#cb6-60" aria-hidden="true" tabindex="-1"></a>    data<span class="sc">$</span>y[<span class="dv">250</span><span class="sc">:</span><span class="fu">nrow</span>(data)], </span>
-<span id="cb6-61"><a href="#cb6-61" aria-hidden="true" tabindex="-1"></a>    preds[<span class="dv">250</span><span class="sc">:</span><span class="fu">nrow</span>(data)], </span>
-<span id="cb6-62"><a href="#cb6-62" aria-hidden="true" tabindex="-1"></a>    <span class="at">method =</span> method, </span>
-<span id="cb6-63"><a href="#cb6-63" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> alpha, </span>
+<span id="cb6-60"><a href="#cb6-60" aria-hidden="true" tabindex="-1"></a>    data<span class="sc">$</span>y[<span class="dv">250</span><span class="sc">:</span><span class="fu">nrow</span>(data)],</span>
+<span id="cb6-61"><a href="#cb6-61" aria-hidden="true" tabindex="-1"></a>    preds[<span class="dv">250</span><span class="sc">:</span><span class="fu">nrow</span>(data)],</span>
+<span id="cb6-62"><a href="#cb6-62" aria-hidden="true" tabindex="-1"></a>    <span class="at">method =</span> method,</span>
+<span id="cb6-63"><a href="#cb6-63" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> alpha,</span>
 <span id="cb6-64"><a href="#cb6-64" aria-hidden="true" tabindex="-1"></a>    <span class="at">parameters =</span> parameters</span>
 <span id="cb6-65"><a href="#cb6-65" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb6-66"><a href="#cb6-66" aria-hidden="true" tabindex="-1"></a>}</span>
@@ -970,9 +970,9 @@ Figure&nbsp;6: Coverage errors, mean interval widths, path lengths, and strongly
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">1</span>))</span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>) {</span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">diff</span>(fits<span class="sc">$</span>fit[[i]]<span class="sc">$</span>intervals[,<span class="dv">2</span>] <span class="sc">-</span> fits<span class="sc">$</span>fit[[i]]<span class="sc">$</span>intervals[,<span class="dv">1</span>]), </span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">main =</span> fits<span class="sc">$</span>method[[i]], </span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">"T"</span>, </span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">diff</span>(fits<span class="sc">$</span>fit[[i]]<span class="sc">$</span>intervals[,<span class="dv">2</span>] <span class="sc">-</span> fits<span class="sc">$</span>fit[[i]]<span class="sc">$</span>intervals[,<span class="dv">1</span>]),</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">main =</span> fits<span class="sc">$</span>method[[i]],</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">"T"</span>,</span>
 <span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylab =</span> <span class="fu">expression</span>(w[t] <span class="sc">-</span> w[t <span class="sc">-</span> <span class="dv">1</span>]))</span>
 <span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="fl">5.1</span>, <span class="fl">4.1</span>, <span class="fl">4.1</span>, <span class="fl">2.1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1042,7 +1042,7 @@ y_t &amp;\sim N(0, \sigma_t^2), \\
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  shift <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span>N <span class="sc">&gt;</span> (N <span class="sc">/</span> <span class="dv">2</span>)</span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  yhat <span class="ot">&lt;-</span> mu</span>
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="fu">length</span>(mu), <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma <span class="sc">+</span> <span class="fu">ifelse</span>(shift, distribution_shift, <span class="dv">0</span>))</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(<span class="at">y =</span> y, <span class="at">yhat =</span> yhat)</span>
 <span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
@@ -1054,37 +1054,37 @@ y_t &amp;\sim N(0, \sigma_t^2), \\
 <span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="cf">function</span>(data, method, alpha, <span class="at">p =</span> <span class="cn">NULL</span>) {</span>
 <span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(<span class="sc">!</span><span class="fu">is.null</span>(p)) <span class="fu">p</span>()</span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>  interval_constructor <span class="ot">=</span> <span class="fu">case_when</span>(</span>
 <span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>    method <span class="sc">==</span> <span class="st">"AgACI"</span> <span class="sc">~</span> <span class="st">"conformal"</span>,</span>
 <span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>    method <span class="sc">==</span> <span class="st">"DtACI"</span> <span class="sc">~</span> <span class="st">"conformal"</span>,</span>
 <span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>    method <span class="sc">==</span> <span class="st">"SF-OGD"</span> <span class="sc">~</span> <span class="st">"linear"</span>,</span>
 <span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>    method <span class="sc">==</span> <span class="st">"SAOCP"</span> <span class="sc">~</span> <span class="st">"linear"</span></span>
 <span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(interval_constructor <span class="sc">==</span> <span class="st">"linear"</span>) {</span>
 <span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>    D <span class="ot">&lt;-</span> <span class="fu">max</span>(<span class="fu">abs</span>(data<span class="sc">$</span>y <span class="sc">-</span> data<span class="sc">$</span>yhat)[<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>])</span>
 <span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span> {</span>
 <span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>    D <span class="ot">&lt;-</span> <span class="dv">1</span></span>
 <span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>  gamma <span class="ot">&lt;-</span> D <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">3</span>)</span>
-<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(interval_constructor <span class="sc">==</span> <span class="st">"linear"</span>) {</span>
 <span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>    gamma_grid <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">0.1</span>, <span class="dv">2</span>, <span class="fl">0.1</span>)</span>
 <span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span> {</span>
 <span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>    gamma_grid <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.001</span>, <span class="fl">0.002</span>, <span class="fl">0.004</span>, <span class="fl">0.008</span>, <span class="fl">0.016</span>, <span class="fl">0.032</span>, <span class="fl">0.064</span>, <span class="fl">0.128</span>)</span>
 <span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>  parameters <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a>    <span class="at">interval_constructor =</span> interval_constructor, </span>
-<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a>    <span class="at">D =</span> D, </span>
-<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">gamma =</span> gamma, </span>
+<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a>    <span class="at">interval_constructor =</span> interval_constructor,</span>
+<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a>    <span class="at">D =</span> D,</span>
+<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">gamma =</span> gamma,</span>
 <span id="cb10-47"><a href="#cb10-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">gamma_grid =</span> gamma_grid</span>
 <span id="cb10-48"><a href="#cb10-48" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb10-49"><a href="#cb10-49" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb10-49"><a href="#cb10-49" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-50"><a href="#cb10-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aci</span>(data<span class="sc">$</span>y, data<span class="sc">$</span>yhat, <span class="at">method =</span> method, <span class="at">alpha =</span> alpha, <span class="at">parameters =</span> parameters)</span>
 <span id="cb10-51"><a href="#cb10-51" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb10-52"><a href="#cb10-52" aria-hidden="true" tabindex="-1"></a></span>
@@ -1168,35 +1168,35 @@ Figure&nbsp;10: Example prediction intervals (target coverage <span class="math 
 <span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="cf">function</span>(data, method, alpha) {</span>
 <span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  first_season <span class="ot">&lt;-</span> data<span class="sc">$</span>Season <span class="sc">==</span> <span class="st">"2010/2011"</span></span>
 <span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  D <span class="ot">&lt;-</span> <span class="fu">max</span>(<span class="fu">abs</span>(data<span class="sc">$</span>obs_value <span class="sc">-</span> data<span class="sc">$</span>Value)[first_season])</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  interval_constructor <span class="ot">=</span> <span class="fu">case_when</span>(</span>
 <span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    method <span class="sc">==</span> <span class="st">"AgACI"</span> <span class="sc">~</span> <span class="st">"conformal"</span>,</span>
 <span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    method <span class="sc">==</span> <span class="st">"DtACI"</span> <span class="sc">~</span> <span class="st">"conformal"</span>,</span>
 <span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    method <span class="sc">==</span> <span class="st">"SF-OGD"</span> <span class="sc">~</span> <span class="st">"linear"</span>,</span>
 <span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    method <span class="sc">==</span> <span class="st">"SAOCP"</span> <span class="sc">~</span> <span class="st">"linear"</span></span>
 <span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>  gamma <span class="ot">&lt;-</span> D <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">3</span>)</span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(interval_constructor <span class="sc">==</span> <span class="st">"linear"</span>) {</span>
 <span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>    gamma_grid <span class="ot">=</span> <span class="fu">seq</span>(<span class="fl">0.1</span>, <span class="dv">1</span>, <span class="fl">0.1</span>)</span>
 <span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span> {</span>
 <span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>    gamma_grid <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.001</span>, <span class="fl">0.002</span>, <span class="fl">0.004</span>, <span class="fl">0.008</span>, <span class="fl">0.016</span>, <span class="fl">0.032</span>, <span class="fl">0.064</span>, <span class="fl">0.128</span>)</span>
 <span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>  parameters <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
 <span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">interval_constructor =</span> interval_constructor,</span>
-<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">D =</span> D, </span>
-<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">gamma =</span> gamma, </span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">D =</span> D,</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">gamma =</span> gamma,</span>
 <span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">gamma_grid =</span> gamma_grid</span>
 <span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aci</span>(</span>
-<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">Y =</span> <span class="fu">log</span>(data<span class="sc">$</span>obs_value), </span>
-<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">predictions =</span> <span class="fu">log</span>(data<span class="sc">$</span>Value), </span>
-<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">method =</span> method, </span>
-<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">parameters =</span> parameters, </span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">Y =</span> <span class="fu">log</span>(data<span class="sc">$</span>obs_value),</span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">predictions =</span> <span class="fu">log</span>(data<span class="sc">$</span>Value),</span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">method =</span> method,</span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">parameters =</span> parameters,</span>
 <span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> alpha</span>
 <span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>}</span>
@@ -1207,18 +1207,18 @@ Figure&nbsp;10: Example prediction intervals (target coverage <span class="math 
 <span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a>analysis_data <span class="ot">&lt;-</span> raw_data <span class="sc">%&gt;%</span></span>
 <span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
-<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a>    Target <span class="sc">==</span> <span class="st">"1 wk ahead"</span>, </span>
-<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a>    Location <span class="sc">==</span> <span class="st">"US National"</span>, </span>
-<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span>(model_name <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Delphi_Uniform"</span>, <span class="st">"CUBMA"</span>, <span class="st">"CU_EAKFC_SIRS"</span>, <span class="st">"CU_EKF_SEIRS"</span>, </span>
+<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a>    Target <span class="sc">==</span> <span class="st">"1 wk ahead"</span>,</span>
+<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a>    Location <span class="sc">==</span> <span class="st">"US National"</span>,</span>
+<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span>(model_name <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Delphi_Uniform"</span>, <span class="st">"CUBMA"</span>, <span class="st">"CU_EAKFC_SIRS"</span>, <span class="st">"CU_EKF_SEIRS"</span>,</span>
 <span id="cb13-51"><a href="#cb13-51" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"CU_EKF_SIRS"</span>, <span class="st">"CU_RHF_SEIRS"</span>, <span class="st">"CU_RHF_SIRS"</span>))</span>
 <span id="cb13-52"><a href="#cb13-52" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
 <span id="cb13-53"><a href="#cb13-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(Year, Model.Week) <span class="sc">%&gt;%</span></span>
 <span id="cb13-54"><a href="#cb13-54" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(model_name) <span class="sc">%&gt;%</span></span>
-<span id="cb13-55"><a href="#cb13-55" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nest</span>() </span>
+<span id="cb13-55"><a href="#cb13-55" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nest</span>()</span>
 <span id="cb13-56"><a href="#cb13-56" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-57"><a href="#cb13-57" aria-hidden="true" tabindex="-1"></a>fits <span class="ot">&lt;-</span> <span class="fu">expand_grid</span>(</span>
-<span id="cb13-58"><a href="#cb13-58" aria-hidden="true" tabindex="-1"></a>  analysis_data, </span>
-<span id="cb13-59"><a href="#cb13-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(<span class="at">method =</span> <span class="fu">c</span>(<span class="st">"AgACI"</span>, <span class="st">"DtACI"</span>, <span class="st">"SF-OGD"</span>, <span class="st">"SAOCP"</span>)), </span>
+<span id="cb13-58"><a href="#cb13-58" aria-hidden="true" tabindex="-1"></a>  analysis_data,</span>
+<span id="cb13-59"><a href="#cb13-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(<span class="at">method =</span> <span class="fu">c</span>(<span class="st">"AgACI"</span>, <span class="st">"DtACI"</span>, <span class="st">"SF-OGD"</span>, <span class="st">"SAOCP"</span>)),</span>
 <span id="cb13-60"><a href="#cb13-60" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(<span class="at">alpha =</span> <span class="fu">c</span>(<span class="fl">0.8</span>, <span class="fl">0.9</span>, <span class="fl">0.95</span>))</span>
 <span id="cb13-61"><a href="#cb13-61" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
 <span id="cb13-62"><a href="#cb13-62" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">fit =</span> <span class="fu">pmap</span>(<span class="fu">list</span>(data, method, alpha), fit),</span>
@@ -1227,7 +1227,7 @@ Figure&nbsp;10: Example prediction intervals (target coverage <span class="math 
 <span id="cb13-65"><a href="#cb13-65" aria-hidden="true" tabindex="-1"></a>case_study_results <span class="ot">&lt;-</span> fits <span class="sc">%&gt;%</span></span>
 <span id="cb13-66"><a href="#cb13-66" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>data, <span class="sc">-</span>fit) <span class="sc">%&gt;%</span></span>
 <span id="cb13-67"><a href="#cb13-67" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">metrics =</span> <span class="fu">map</span>(metrics, as_tibble)) <span class="sc">%&gt;%</span></span>
-<span id="cb13-68"><a href="#cb13-68" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(<span class="fu">c</span>(metrics)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-68"><a href="#cb13-68" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(<span class="fu">c</span>(metrics))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>The coverage errors, mean interval widths, path lengths, and strongly adaptive regret (for <span class="math inline">m = 20</span>) of the prediction intervals for each of the underlying forecast models is shown in <a href="#fig-case-study-metrics" class="quarto-xref">Figure&nbsp;11</a>. In all cases the absolute coverage error was less than <span class="math inline">0.1</span>. SF-OGD performed particularly well, with coverage errors close to zero for all forecasting models. Interval widths were similar across methods, with SAOCP slightly shorter. Path Lengths were shorter for AgACI and DtACI and longer for SAOCP.</p>
@@ -1254,7 +1254,7 @@ Figure&nbsp;11: Coverage errors, mean interval widths, path lengths, and strongl
 <details class="code-fold">
 <summary>Hide/Show the code</summary>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>sarima_fits <span class="ot">&lt;-</span> fits <span class="sc">%&gt;%</span> <span class="fu">filter</span>(</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  model_name <span class="sc">==</span> <span class="st">"ReichLab_sarima_seasonal_difference_FALSE"</span>, </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  model_name <span class="sc">==</span> <span class="st">"ReichLab_sarima_seasonal_difference_FALSE"</span>,</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  alpha <span class="sc">==</span> <span class="fl">0.9</span></span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">output =</span> <span class="fu">map</span>(fit, extract_intervals)) <span class="sc">%&gt;%</span></span>
@@ -1270,8 +1270,8 @@ Figure&nbsp;11: Coverage errors, mean interval widths, path lengths, and strongl
 <span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> upper, <span class="at">color =</span> method)) <span class="sc">+</span></span>
 <span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Season) <span class="sc">+</span></span>
 <span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Flu Season Week"</span>, </span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"log(wILI)"</span>, </span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Flu Season Week"</span>,</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"log(wILI)"</span>,</span>
 <span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"SARIMA forecasts with ACI 90% prediction intervals"</span></span>
 <span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
@@ -1464,15 +1464,15 @@ Figure&nbsp;14: Mean interval width vs coverage error (top) and Mean Path Length
 </section>
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></div></div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@article{susmann2024,
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></div></div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@article{susmann2025,
   author = {Susmann, Herbert and Chambaz, Antoine and Josse, Julie},
   publisher = {Société Française de Statistique},
   title = {AdaptiveConformal: {An} {`R`} {Package} for {Adaptive}
     {Conformal} {Inference}},
   journal = {Computo},
-  date = {2024-07-17},
+  date = {2025-06-07},
   url = {https://computo.sfds.asso.fr/template-computo-quarto},
-  doi = {xxxx},
+  doi = {10.57750/edan-5f53},
   issn = {2824-7795},
   langid = {en},
   abstract = {Conformal Inference (CI) is a popular approach for
@@ -1493,10 +1493,10 @@ Figure&nbsp;14: Mean interval width vs coverage error (top) and Mean Path Length
     tools for visualizing and summarizing conformal prediction
     intervals.}
 }
-</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-susmann2024" class="csl-entry quarto-appendix-citeas" role="listitem">
-Susmann, Herbert, Antoine Chambaz, and Julie Josse. 2024.
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-susmann2025" class="csl-entry quarto-appendix-citeas" role="listitem">
+Susmann, Herbert, Antoine Chambaz, and Julie Josse. 2025.
 <span>“AdaptiveConformal: An `R` Package for Adaptive Conformal
-Inference.”</span> <em>Computo</em>, July. <a href="https://doi.org/xxxx">https://doi.org/xxxx</a>.
+Inference.”</span> <em>Computo</em>, June. <a href="https://doi.org/10.57750/edan-5f53">https://doi.org/10.57750/edan-5f53</a>.
 </div></div></section></div></main>
 <!-- /main column -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -1993,7 +1993,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a><span class="co">    orcid: 0000-0002-5592-6471</span></span>
 <span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliations:</span></span>
 <span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a><span class="co">      - name: Université Paris Cité, CNRS, MAP5, F-75006 Paris, France</span></span>
-<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a><span class="co">        department: </span></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a><span class="co">        department:</span></span>
 <span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a><span class="co">        url: https://map5.mi.parisdescartes.fr/</span></span>
 <span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: Julie Josse</span></span>
 <span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a><span class="co">    email: julie.josse@inria.fr</span></span>
@@ -2002,7 +2002,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliations:</span></span>
 <span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a><span class="co">      - name: Inria PreMeDICaL team, Idesp, Université de Montpellier</span></span>
 <span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a><span class="co">        url: https://team.inria.fr/premedical/</span></span>
-<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> last-modified</span></span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> 18/07/2024</span></span>
 <span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a><span class="an">date-modified:</span><span class="co"> last-modified</span></span>
 <span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> |</span></span>
 <span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a><span class="co">  Conformal Inference (CI) is a popular approach for generating finite sample prediction intervals based on the output of any point prediction method when data are exchangeable. Adaptive Conformal Inference (ACI) algorithms extend CI to the case of sequentially observed data, such as time series, and exhibit strong theoretical guarantees without having to assume exchangeability of the observed data. The common thread that unites algorithms in the ACI family is that they adaptively adjust the width of the generated prediction intervals in response to the observed data. We provide a detailed description of five ACI algorithms and their theoretical guarantees, and test their performance in simulation studies. We then present a case study of producing prediction intervals for influenza incidence in the United States based on black-box point forecasts. Implementations of all the algorithms are released as an open-source `R` package, `AdaptiveConformal`, which also includes tools for visualizing and summarizing conformal prediction intervals.</span></span>
@@ -2012,7 +2012,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a><span class="an">citation:</span></span>
 <span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a><span class="co">  type: article-journal</span></span>
 <span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a><span class="co">  container-title: "Computo"</span></span>
-<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a><span class="co">  doi: "xxxx"</span></span>
+<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a><span class="co">  doi: "10.57750/edan-5f53"</span></span>
 <span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a><span class="co">  url: https://computo.sfds.asso.fr/template-computo-quarto</span></span>
 <span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a><span class="co">  publisher: "Société Française de Statistique"</span></span>
 <span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a><span class="co">  issn: "2824-7795"</span></span>
@@ -2024,9 +2024,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb18-47"><a href="#cb18-47" aria-hidden="true" tabindex="-1"></a><span class="an">published:</span><span class="co"> true # will be set to true once accepted</span></span>
 <span id="cb18-48"><a href="#cb18-48" aria-hidden="true" tabindex="-1"></a><span class="an">google-scholar:</span><span class="co"> true</span></span>
 <span id="cb18-49"><a href="#cb18-49" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
-<span id="cb18-50"><a href="#cb18-50" aria-hidden="true" tabindex="-1"></a><span class="co">  computo-html: </span></span>
+<span id="cb18-50"><a href="#cb18-50" aria-hidden="true" tabindex="-1"></a><span class="co">  computo-html:</span></span>
 <span id="cb18-51"><a href="#cb18-51" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: true</span></span>
-<span id="cb18-52"><a href="#cb18-52" aria-hidden="true" tabindex="-1"></a><span class="co">  computo-pdf: </span></span>
+<span id="cb18-52"><a href="#cb18-52" aria-hidden="true" tabindex="-1"></a><span class="co">  computo-pdf:</span></span>
 <span id="cb18-53"><a href="#cb18-53" aria-hidden="true" tabindex="-1"></a><span class="co">    keep-tex: true</span></span>
 <span id="cb18-54"><a href="#cb18-54" aria-hidden="true" tabindex="-1"></a><span class="co">    include-in-header:</span></span>
 <span id="cb18-55"><a href="#cb18-55" aria-hidden="true" tabindex="-1"></a><span class="co">      - text: |</span></span>
@@ -2035,12 +2035,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb18-58"><a href="#cb18-58" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb18-59"><a href="#cb18-59" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-60"><a href="#cb18-60" aria-hidden="true" tabindex="-1"></a><span class="fu"># Introduction</span></span>
-<span id="cb18-61"><a href="#cb18-61" aria-hidden="true" tabindex="-1"></a>Conformal Inference (CI) is a family of methods for generating finite sample prediction intervals around point predictions when data are exchangeable <span class="co">[</span><span class="ot">@vovk2005; @shafer2008conformal; @angelopoulos2022gentle</span><span class="co">]</span>. The input point predictions can be derived from any prediction method, making CI a powerful tool for augmenting black-box prediction algorithms with prediction intervals. Classical CI methods are able to yield marginally valid intervals with only the assumption that the joint distribution of the data does not change based on the order of the observations (that is, they are exchangeable). However, in many real-world settings data are not exchangeable: for example, time series data usually cannot be assumed to be exchangeable due to temporal dependence. A recent line of research examines the problem of generating prediction intervals for observations that are observed online (that is, one at a time) and for which exchangeability is not assumed to hold <span class="co">[</span><span class="ot">@gibbs2021adaptive; @zaffran2022agaci; @gibbs2022faci; @bhatnagar2023saocp</span><span class="co">]</span>. The methods from this literature, which we refer to generally as _Adaptive Conformal Inference_ (ACI) algorithms, work by adaptively adjusting the width of the generated prediction intervals in response to the observed data. </span>
+<span id="cb18-61"><a href="#cb18-61" aria-hidden="true" tabindex="-1"></a>Conformal Inference (CI) is a family of methods for generating finite sample prediction intervals around point predictions when data are exchangeable <span class="co">[</span><span class="ot">@vovk2005; @shafer2008conformal; @angelopoulos2022gentle</span><span class="co">]</span>. The input point predictions can be derived from any prediction method, making CI a powerful tool for augmenting black-box prediction algorithms with prediction intervals. Classical CI methods are able to yield marginally valid intervals with only the assumption that the joint distribution of the data does not change based on the order of the observations (that is, they are exchangeable). However, in many real-world settings data are not exchangeable: for example, time series data usually cannot be assumed to be exchangeable due to temporal dependence. A recent line of research examines the problem of generating prediction intervals for observations that are observed online (that is, one at a time) and for which exchangeability is not assumed to hold <span class="co">[</span><span class="ot">@gibbs2021adaptive; @zaffran2022agaci; @gibbs2022faci; @bhatnagar2023saocp</span><span class="co">]</span>. The methods from this literature, which we refer to generally as _Adaptive Conformal Inference_ (ACI) algorithms, work by adaptively adjusting the width of the generated prediction intervals in response to the observed data.</span>
 <span id="cb18-62"><a href="#cb18-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-63"><a href="#cb18-63" aria-hidden="true" tabindex="-1"></a>Informally, suppose a sequence of outcomes $y_t \in \mathbb{R}$, $t = 1, \dots, T$ are observed one at a time. Before seeing each observation, we have at our disposal a point prediction $\hat{\mu}_t \in \mathbb{R}$ that can be generated by any method. Our goal is to find an algorithm for producing prediction intervals $[\ell_t, u_t]$, $\ell_t \leq u_t$ such that, in the long run, the observations $y_t$ fall within the corresponding prediction intervals roughly $\alpha \times 100\%$ of the time: that is, $\lim_{T \to \infty} \sfrac{1}{T} \sum_{t=1}^T \mathbb{I}<span class="sc">\{</span> y_t \in <span class="co">[</span><span class="ot">\ell_t, u_t</span><span class="co">]</span> <span class="sc">\}</span> = \alpha$. The original ACI algorithm <span class="co">[</span><span class="ot">@gibbs2021adaptive</span><span class="co">]</span> is based on a simple idea: if the previous prediction interval at time $(t-1)$ did not cover the true observation, then the next prediction interval at time $t$ is made slightly wider. Conversely, if the previous prediction interval did include the observation, then the next prediction interval is made slightly narrower. It can be shown that this procedure yields prediction intervals that in the long run cover the true observations the desired proportion of the time. </span>
+<span id="cb18-63"><a href="#cb18-63" aria-hidden="true" tabindex="-1"></a>Informally, suppose a sequence of outcomes $y_t \in \mathbb{R}$, $t = 1, \dots, T$ are observed one at a time. Before seeing each observation, we have at our disposal a point prediction $\hat{\mu}_t \in \mathbb{R}$ that can be generated by any method. Our goal is to find an algorithm for producing prediction intervals $[\ell_t, u_t]$, $\ell_t \leq u_t$ such that, in the long run, the observations $y_t$ fall within the corresponding prediction intervals roughly $\alpha \times 100\%$ of the time: that is, $\lim_{T \to \infty} \sfrac{1}{T} \sum_{t=1}^T \mathbb{I}<span class="sc">\{</span> y_t \in <span class="co">[</span><span class="ot">\ell_t, u_t</span><span class="co">]</span> <span class="sc">\}</span> = \alpha$. The original ACI algorithm <span class="co">[</span><span class="ot">@gibbs2021adaptive</span><span class="co">]</span> is based on a simple idea: if the previous prediction interval at time $(t-1)$ did not cover the true observation, then the next prediction interval at time $t$ is made slightly wider. Conversely, if the previous prediction interval did include the observation, then the next prediction interval is made slightly narrower. It can be shown that this procedure yields prediction intervals that in the long run cover the true observations the desired proportion of the time.</span>
 <span id="cb18-64"><a href="#cb18-64" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-65"><a href="#cb18-65" aria-hidden="true" tabindex="-1"></a>The main tuning parameter of the original ACI algorithm is a learning rate that controls how fast prediction interval width changes. If the learning rate is too low, then the prediction intervals will not be able to adapt fast enough to shifts in the data generating distribution; if it is too large, then the intervals will oscillate widely. The critical dependence of the original ACI algorithm on proper choice of its learning rate spurred subsequent research into meta-algorithms that learn the correct learning rate (or an analogue thereof) in various ways, typically drawing on approaches from the online learning literature. In this paper, we present four such algorithms: Aggregated ACI <span class="co">[</span><span class="ot">AgACI, @zaffran2022agaci</span><span class="co">]</span>, Dynamically-tuned Adaptive ACI <span class="co">[</span><span class="ot">DtACI, @gibbs2022faci</span><span class="co">]</span>, Scale-Free Online Gradient Descent <span class="co">[</span><span class="ot">SF-OGD, @bhatnagar2023saocp</span><span class="co">]</span>, and Strongly Adaptive Online Conformal Prediction <span class="co">[</span><span class="ot">SAOCP, @bhatnagar2023saocp</span><span class="co">]</span>. We note that the adaption of conformal inference techniques is an active area of research and the algorithms we focus on in this work are not exhaustive; see among others @feldman2023achieving, @bastani2022practical, @xu2021enbpi, @xu2023spci, @angelopoulos2024online, @zhang2024discounted, and @gasparin2024conformal.</span>
-<span id="cb18-66"><a href="#cb18-66" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb18-66"><a href="#cb18-66" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-67"><a href="#cb18-67" aria-hidden="true" tabindex="-1"></a>Our primary practical contribution is an implementation of each algorithm in an open source <span class="in">`R`</span> package, <span class="in">`AdaptiveConformal`</span>, which is available at <span class="co">[</span><span class="ot">https://github.com/herbps10/AdaptiveConformal</span><span class="co">](https://github.com/herbps10/AdaptiveConformal)</span>. The package also includes routines for visualization and summary of the prediction intervals. We note that Python versions of several algorithms were also made available by @zaffran2022agaci and @bhatnagar2023saocp, but to our knowledge this is the first package implementing them in <span class="in">`R`</span>. In addition, several <span class="in">`R`</span> packages exist for conformal inference in other contexts, including <span class="in">`conformalInference`</span> focusing on regression <span class="co">[</span><span class="ot">@tibshirani2019ci</span><span class="co">]</span>, <span class="in">`conformalInference.fd`</span>, with methods for functional responses <span class="co">[</span><span class="ot">@diquigiovanni2022fd</span><span class="co">]</span>, and <span class="in">`cfcausal`</span> for causal inference related functionals <span class="co">[</span><span class="ot">@lei2020cfcausal</span><span class="co">]</span>. Our second practical contribution is to compare the performance of the algorithms in simulation studies and in a case study generating prediction intervals for influenza incidence in the United States based on black-box point forecasts.</span>
 <span id="cb18-68"><a href="#cb18-68" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-69"><a href="#cb18-69" aria-hidden="true" tabindex="-1"></a>The rest of the paper unfolds as follows. In @sec-theory, we present a unified theoretical framework for analyzing the ACI algorithms based on the online learning paradigm. In @sec-algorithms we provide descriptions of each algorithm along with their known theoretical properties. In @sec-simulations we compare the performance of the algorithms in several simulation studies. @sec-case-study gives a case study based on forecasting influenza in the United States. Finally, @sec-discussion provides a discussion and ideas for future research in this rapidly expanding field.</span>
@@ -2060,7 +2060,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb18-83"><a href="#cb18-83" aria-hidden="true" tabindex="-1"></a><span class="fu"># Theoretical Framework {#sec-theory}</span></span>
 <span id="cb18-84"><a href="#cb18-84" aria-hidden="true" tabindex="-1"></a>*Notation*: for any integer $N \geq 1$ let $\llbracket N \rrbracket := <span class="sc">\{</span> 1, \dots, N <span class="sc">\}</span>$. Let $\mathbb{I}$ be the indicator function. Let $\nabla f$ denote the gradient (subgradient) of the differentiable (convex) function $f$.</span>
 <span id="cb18-85"><a href="#cb18-85" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-86"><a href="#cb18-86" aria-hidden="true" tabindex="-1"></a>We consider an online learning scenario in which we gain access to a sequence of observations $(y_t)_{t \geq 1}$ one at a time (see @cesabianchi2006games for an comprehensive account of online learning theory). Fix $\alpha \in (0, 1)$ to be the target empirical coverage of the prediction intervals. The goal is to output at time $t$ a prediction interval for the unseen observation $y_{t}$, with the prediction interval generated by an _interval construction function_ $\widehat{C}_{t}$. Formally, let $\widehat{C}_t$ be a function that takes as input a parameter $\theta_t \in \mathbb{R}$ and outputs a closed prediction interval $<span class="co">[</span><span class="ot">\ell_t, u_t</span><span class="co">]</span>$. The interval construction function must be nested: if $\theta^\prime &gt; \theta$, then $\widehat{C}_t(\theta) \subseteq \widehat{C}_t(\theta^\prime)$. In words, larger values of $\theta$ imply wider prediction intervals. The interval constructor is indexed by $t$ to emphasize that it may use other information at each time point, such as a point prediction $\hat{\mu}_t \in \mathbb{R}$. We make no restrictions on how this external information is generated. </span>
+<span id="cb18-86"><a href="#cb18-86" aria-hidden="true" tabindex="-1"></a>We consider an online learning scenario in which we gain access to a sequence of observations $(y_t)_{t \geq 1}$ one at a time (see @cesabianchi2006games for an comprehensive account of online learning theory). Fix $\alpha \in (0, 1)$ to be the target empirical coverage of the prediction intervals. The goal is to output at time $t$ a prediction interval for the unseen observation $y_{t}$, with the prediction interval generated by an _interval construction function_ $\widehat{C}_{t}$. Formally, let $\widehat{C}_t$ be a function that takes as input a parameter $\theta_t \in \mathbb{R}$ and outputs a closed prediction interval $<span class="co">[</span><span class="ot">\ell_t, u_t</span><span class="co">]</span>$. The interval construction function must be nested: if $\theta^\prime &gt; \theta$, then $\widehat{C}_t(\theta) \subseteq \widehat{C}_t(\theta^\prime)$. In words, larger values of $\theta$ imply wider prediction intervals. The interval constructor is indexed by $t$ to emphasize that it may use other information at each time point, such as a point prediction $\hat{\mu}_t \in \mathbb{R}$. We make no restrictions on how this external information is generated.</span>
 <span id="cb18-87"><a href="#cb18-87" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-88"><a href="#cb18-88" aria-hidden="true" tabindex="-1"></a>Define $r_t := \inf<span class="sc">\{</span>\theta \in \mathbb{R} : y_t \in \widehat{C}_t(\theta) \}$ to be the _radius_ at time $t$. The radius is the smallest possible $\theta$ such that the prediction interval covers the observation $y_t$. A key assumption for the theoretical analysis of several of the algorithms is that the radii are bounded:</span>
 <span id="cb18-89"><a href="#cb18-89" aria-hidden="true" tabindex="-1"></a></span>
@@ -2090,9 +2090,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb18-113"><a href="#cb18-113" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb18-114"><a href="#cb18-114" aria-hidden="true" tabindex="-1"></a>\widehat{C}_t(\theta_t) := \{ y : S(\hat{\mu}_t, y) \leq \mathrm{Quantile(\theta, \{ s_1, \dots, s_{t-1}<span class="sc">\}</span>)} <span class="sc">\}</span></span>
 <span id="cb18-115"><a href="#cb18-115" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb18-116"><a href="#cb18-116" aria-hidden="true" tabindex="-1"></a>Such an approach allows for prediction intervals that may not be centered on $\hat{\mu}_t$. </span>
+<span id="cb18-116"><a href="#cb18-116" aria-hidden="true" tabindex="-1"></a>Such an approach allows for prediction intervals that may not be centered on $\hat{\mu}_t$.</span>
 <span id="cb18-117"><a href="#cb18-117" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-118"><a href="#cb18-118" aria-hidden="true" tabindex="-1"></a>Our proposed <span class="in">`AdaptiveConformal`</span> package takes the absolute residual as the default nonconformity score, although the user may also specify any custom nonconformity score by supplying it as an <span class="in">`R`</span> function. </span>
+<span id="cb18-118"><a href="#cb18-118" aria-hidden="true" tabindex="-1"></a>Our proposed <span class="in">`AdaptiveConformal`</span> package takes the absolute residual as the default nonconformity score, although the user may also specify any custom nonconformity score by supplying it as an <span class="in">`R`</span> function.</span>
 <span id="cb18-119"><a href="#cb18-119" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-120"><a href="#cb18-120" aria-hidden="true" tabindex="-1"></a><span class="fu">## Online Learning Framework</span></span>
 <span id="cb18-121"><a href="#cb18-121" aria-hidden="true" tabindex="-1"></a>We now introduce a loss function that defines the quality of a prediction interval with respect to a realized observation. Define the _pinball loss_ $L^\alpha$ as</span>
@@ -2109,9 +2109,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb18-132"><a href="#cb18-132" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Observe true outcome $y_t$ and calculate radius $r_t$.</span>
 <span id="cb18-133"><a href="#cb18-133" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Record $\mathrm{err}_t := \mathbb{I}<span class="co">[</span><span class="ot">y_t \not\in \widehat{C}_t(\theta_t)</span><span class="co">]</span>$.</span>
 <span id="cb18-134"><a href="#cb18-134" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Incur loss $L^\alpha(\theta_t, r_t)$.</span>
-<span id="cb18-135"><a href="#cb18-135" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb18-135"><a href="#cb18-135" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-136"><a href="#cb18-136" aria-hidden="true" tabindex="-1"></a>This iterative procedure is at the core of the online learning theoretical framework in which theoretical results have been derived.</span>
-<span id="cb18-137"><a href="#cb18-137" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb18-137"><a href="#cb18-137" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-138"><a href="#cb18-138" aria-hidden="true" tabindex="-1"></a><span class="fu">## Assessing ACI algorithms</span></span>
 <span id="cb18-139"><a href="#cb18-139" aria-hidden="true" tabindex="-1"></a>There are two different perspectives we can take in measuring the quality of an ACI algorithm that generates a sequence $(\theta_t)_{t \in \llbracket T \rrbracket}$. First, we could look at how close the empirical coverage of the generated prediction intervals is to the desired coverage level $\alpha$. Formally, define the empirical coverage as the proportion of observations that fell within the corresponding prediction interval: $\mathrm{EmpCov}(T) := \frac{1}{T} \sum_{t=1}^T (1 - \mathrm{err}_t)$. The coverage error is then given by</span>
 <span id="cb18-140"><a href="#cb18-140" aria-hidden="true" tabindex="-1"></a>$$</span>
@@ -2131,7 +2131,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb18-154"><a href="#cb18-154" aria-hidden="true" tabindex="-1"></a>  \mathrm{SAReg}(T, m) := \max_{<span class="co">[</span><span class="ot">\tau, \tau + m - 1</span><span class="co">]</span> \subseteq \llbracket T \rrbracket} \left( \sum_{t=\tau}^{\tau + m - 1} L^{\alpha}(\theta_t, r_t) - \inf_{\theta^* \in \mathbb{R}} \sum_{t=\tau}^{\tau + m - 1} L^\alpha(\theta^*, r_t) \right).</span>
 <span id="cb18-155"><a href="#cb18-155" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
 <span id="cb18-156"><a href="#cb18-156" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb18-157"><a href="#cb18-157" aria-hidden="true" tabindex="-1"></a>Both ways of evaluating ACI methods are important because targeting only one or the other can lead to algorithms that yield prediction intervals that are not practically useful. As a simple pathological example of only targeting the coverage error, suppose we wish to generate $\alpha = 50\%$ prediction intervals. We could choose to alternate $\theta$ between 0 and $\infty$, such that $\mathrm{err}_t$ alternates between 0 and 1. The empirical coverage would then trivially converge to the desired level of 50\%. However, the same algorithm would yield infinite regret (see @bhatnagar2023saocp for a more in-depth example of an scenario in which coverage is optimal but the regret grows linearly). On the other hand, an algorithm that has arbitrarily small regret may not yield good empirical coverage. Suppose the observations and point predictions are constant: $y_t = 1$ and $\hat{\mu}_t = 0$ for all $t \geq 1$. Consider a simple class of algorithms that outputs constantly $\theta_t = \theta'$ for some $\theta' &lt; 1$. With the linear interval construction function, the prediction intervals are then $\widehat{C}_t(\theta_t) = <span class="co">[</span><span class="ot">-\theta', \theta'</span><span class="co">]</span>$. The regret is given by $\mathrm{Reg}(T) = 2T\alpha(1-\theta')$, which approaches zero as $\theta'$ approaches 1. The empirical coverage is, however, always zero. In other words, the regret can be arbitrarily close to zero while at the same time the empirical coverage does not approach the desired level. </span>
+<span id="cb18-157"><a href="#cb18-157" aria-hidden="true" tabindex="-1"></a>Both ways of evaluating ACI methods are important because targeting only one or the other can lead to algorithms that yield prediction intervals that are not practically useful. As a simple pathological example of only targeting the coverage error, suppose we wish to generate $\alpha = 50\%$ prediction intervals. We could choose to alternate $\theta$ between 0 and $\infty$, such that $\mathrm{err}_t$ alternates between 0 and 1. The empirical coverage would then trivially converge to the desired level of 50\%. However, the same algorithm would yield infinite regret (see @bhatnagar2023saocp for a more in-depth example of an scenario in which coverage is optimal but the regret grows linearly). On the other hand, an algorithm that has arbitrarily small regret may not yield good empirical coverage. Suppose the observations and point predictions are constant: $y_t = 1$ and $\hat{\mu}_t = 0$ for all $t \geq 1$. Consider a simple class of algorithms that outputs constantly $\theta_t = \theta'$ for some $\theta' &lt; 1$. With the linear interval construction function, the prediction intervals are then $\widehat{C}_t(\theta_t) = <span class="co">[</span><span class="ot">-\theta', \theta'</span><span class="co">]</span>$. The regret is given by $\mathrm{Reg}(T) = 2T\alpha(1-\theta')$, which approaches zero as $\theta'$ approaches 1. The empirical coverage is, however, always zero. In other words, the regret can be arbitrarily close to zero while at the same time the empirical coverage does not approach the desired level.</span>
 <span id="cb18-158"><a href="#cb18-158" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-159"><a href="#cb18-159" aria-hidden="true" tabindex="-1"></a>These simple examples illustrate that, unfortunately, bounds on the coverage error and bounds on the regret are not in general interchangeable. It is possible, however, to show equivalencies by either (1) making distributional assumptions on the data or (2) using additional information about how the algorithm produces the sequence $(\theta_t)_{t \in \llbracket T \rrbracket}$ <span class="co">[</span><span class="ot">@bhatnagar2023saocp</span><span class="co">]</span>.</span>
 <span id="cb18-160"><a href="#cb18-160" aria-hidden="true" tabindex="-1"></a></span>
@@ -2141,7 +2141,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb18-164"><a href="#cb18-164" aria-hidden="true" tabindex="-1"></a>  \mathrm{MeanWidth}(T) := \frac{1}{T} \sum_{t=1}^T w_t,</span>
 <span id="cb18-165"><a href="#cb18-165" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
 <span id="cb18-166"><a href="#cb18-166" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb18-167"><a href="#cb18-167" aria-hidden="true" tabindex="-1"></a>where $w_t := u_t - \ell_t$ is the interval width at time $t$. </span>
+<span id="cb18-167"><a href="#cb18-167" aria-hidden="true" tabindex="-1"></a>where $w_t := u_t - \ell_t$ is the interval width at time $t$.</span>
 <span id="cb18-168"><a href="#cb18-168" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-169"><a href="#cb18-169" aria-hidden="true" tabindex="-1"></a>Finally, we introduce a metric that is intended to capture pathological behavior that can arise with ACI algorithms where the prediction intervals oscillate between being extremely narrow and extremely wide. Define the _path length_ of prediction intervals generated by an ACI algorithm as</span>
 <span id="cb18-170"><a href="#cb18-170" aria-hidden="true" tabindex="-1"></a>$$</span>
@@ -2149,7 +2149,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb18-172"><a href="#cb18-172" aria-hidden="true" tabindex="-1"></a>  \mathrm{PathLength}(T) := \sum_{t=2}^T |w_t - w_{t-1}|.</span>
 <span id="cb18-173"><a href="#cb18-173" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
 <span id="cb18-174"><a href="#cb18-174" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb18-175"><a href="#cb18-175" aria-hidden="true" tabindex="-1"></a>A high path length indicates that the prediction intervals were variable over time, and a low path length indicates the prediction intervals were stable. </span>
+<span id="cb18-175"><a href="#cb18-175" aria-hidden="true" tabindex="-1"></a>A high path length indicates that the prediction intervals were variable over time, and a low path length indicates the prediction intervals were stable.</span>
 <span id="cb18-176"><a href="#cb18-176" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-177"><a href="#cb18-177" aria-hidden="true" tabindex="-1"></a><span class="fu"># Algorithms {#sec-algorithms}</span></span>
 <span id="cb18-178"><a href="#cb18-178" aria-hidden="true" tabindex="-1"></a></span>
@@ -2249,10 +2249,10 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb18-272"><a href="#cb18-272" aria-hidden="true" tabindex="-1"></a>  \theta_{t+1} = \theta_{t} + \gamma (\mathrm{err}_t - (1 - \alpha)),</span>
 <span id="cb18-273"><a href="#cb18-273" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
 <span id="cb18-274"><a href="#cb18-274" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb18-275"><a href="#cb18-275" aria-hidden="true" tabindex="-1"></a>where $\gamma &gt; 0$ is a user-specified learning rate. For intuition, note that if $y_t$ fell outside of the prediction interval at time $t$ ($\mathrm{err}_t = 1$) then the next interval is widened ($\theta_{t+1} = \theta_t + \gamma \alpha$). On the contrary, if $y_t$ fell within the interval ($\mathrm{err}_t = 0$) then the next interval is shortened ($\theta_{t+1} = \theta_t - \gamma(1 - \alpha)$). The learning rate $\gamma$ controls how fast the width of the prediction intervals changes in response to the data. </span>
+<span id="cb18-275"><a href="#cb18-275" aria-hidden="true" tabindex="-1"></a>where $\gamma &gt; 0$ is a user-specified learning rate. For intuition, note that if $y_t$ fell outside of the prediction interval at time $t$ ($\mathrm{err}_t = 1$) then the next interval is widened ($\theta_{t+1} = \theta_t + \gamma \alpha$). On the contrary, if $y_t$ fell within the interval ($\mathrm{err}_t = 0$) then the next interval is shortened ($\theta_{t+1} = \theta_t - \gamma(1 - \alpha)$). The learning rate $\gamma$ controls how fast the width of the prediction intervals changes in response to the data.</span>
 <span id="cb18-276"><a href="#cb18-276" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-277"><a href="#cb18-277" aria-hidden="true" tabindex="-1"></a><span class="fu">### Theoretical Guarantees</span></span>
-<span id="cb18-278"><a href="#cb18-278" aria-hidden="true" tabindex="-1"></a>With the choice of the quantile interval structure, the ACI algorithm has the following finite sample bound on the coverage error  (@gibbs2021adaptive; Proposition 4.1). For all $\gamma &gt; 0$ (and so long as $\gamma$ does not depend on $T$), </span>
+<span id="cb18-278"><a href="#cb18-278" aria-hidden="true" tabindex="-1"></a>With the choice of the quantile interval structure, the ACI algorithm has the following finite sample bound on the coverage error  (@gibbs2021adaptive; Proposition 4.1). For all $\gamma &gt; 0$ (and so long as $\gamma$ does not depend on $T$),</span>
 <span id="cb18-279"><a href="#cb18-279" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb18-280"><a href="#cb18-280" aria-hidden="true" tabindex="-1"></a>|\mathrm{CovErr}(T)| \leq \frac{\max<span class="sc">\{</span>\theta_1, 1 - \theta_1<span class="sc">\}</span> + \gamma}{\gamma T}.</span>
 <span id="cb18-281"><a href="#cb18-281" aria-hidden="true" tabindex="-1"></a>$$</span>
@@ -2264,7 +2264,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb18-287"><a href="#cb18-287" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb18-288"><a href="#cb18-288" aria-hidden="true" tabindex="-1"></a>\mathrm{Reg}(T) \leq \mathcal{O}(D^2 / \gamma + \gamma T) \leq \mathcal{O}(D \sqrt{T}),</span>
 <span id="cb18-289"><a href="#cb18-289" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb18-290"><a href="#cb18-290" aria-hidden="true" tabindex="-1"></a>where the second inequality follows if the optimal choice (with respect to long-term regret) of $\gamma = D/\sqrt{T}$ is used <span class="co">[</span><span class="ot">@bhatnagar2023saocp</span><span class="co">]</span>. Taken together, these theoretical results imply that while the coverage error is guaranteed to converge to zero for any choice of $\gamma$, achieving sublinear regret requires choosing $\gamma$ more carefully. This highlights the importance of both ways of assessing ACI algorithms: if we only focused on controlling the coverage error, we might not achieve optimal control of regret, leading to intervals that are not practically useful. </span>
+<span id="cb18-290"><a href="#cb18-290" aria-hidden="true" tabindex="-1"></a>where the second inequality follows if the optimal choice (with respect to long-term regret) of $\gamma = D/\sqrt{T}$ is used <span class="co">[</span><span class="ot">@bhatnagar2023saocp</span><span class="co">]</span>. Taken together, these theoretical results imply that while the coverage error is guaranteed to converge to zero for any choice of $\gamma$, achieving sublinear regret requires choosing $\gamma$ more carefully. This highlights the importance of both ways of assessing ACI algorithms: if we only focused on controlling the coverage error, we might not achieve optimal control of regret, leading to intervals that are not practically useful.</span>
 <span id="cb18-291"><a href="#cb18-291" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-292"><a href="#cb18-292" aria-hidden="true" tabindex="-1"></a><span class="fu">### Tuning Parameters</span></span>
 <span id="cb18-293"><a href="#cb18-293" aria-hidden="true" tabindex="-1"></a>Therefore, the main tuning parameter is the learning rate $\gamma$. The theoretical bounds on the coverage error suggest setting a large $\gamma$ such that the coverage error decays quickly in $T$; however, in practice and setting $\gamma$ too large will lead to intervals with large oscillations as seen in @fig-aci. This is quantified in the path length, which increases significantly as $\gamma$ increases, even though the empirical coverage remains near the desired value of 80\%.  On the other hand, setting $\gamma$ too small will lead to intervals that do not adapt fast enough to distribution shifts. Thus, choosing a good value for $\gamma$ is essential. However, the optimal choice $\gamma = D / \sqrt{T}$ cannot be used directly in practice unless the time series length $T$ is fixed in advance, or the so called "doubling trick" is used to relax the need to know $T$ in advance (@cesabianchi2006games; Section 2.3).</span>
@@ -2326,7 +2326,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb18-349"><a href="#cb18-349" aria-hidden="true" tabindex="-1"></a><span class="in">    \For{$k = 1, \dots, K$}</span></span>
 <span id="cb18-350"><a href="#cb18-350" aria-hidden="true" tabindex="-1"></a><span class="in">      \State Update $\mathcal{A}_k$ with observation $y_t$.</span></span>
 <span id="cb18-351"><a href="#cb18-351" aria-hidden="true" tabindex="-1"></a><span class="in">    \EndFor</span></span>
-<span id="cb18-352"><a href="#cb18-352" aria-hidden="true" tabindex="-1"></a><span class="in">    \State Update $\mathcal{B}^\ell$ with observed outcome $y_t$. </span></span>
+<span id="cb18-352"><a href="#cb18-352" aria-hidden="true" tabindex="-1"></a><span class="in">    \State Update $\mathcal{B}^\ell$ with observed outcome $y_t$.</span></span>
 <span id="cb18-353"><a href="#cb18-353" aria-hidden="true" tabindex="-1"></a><span class="in">    \State Update $\mathcal{B}^u$ with observed outcome $y_t$.</span></span>
 <span id="cb18-354"><a href="#cb18-354" aria-hidden="true" tabindex="-1"></a><span class="in">  \EndFor</span></span>
 <span id="cb18-355"><a href="#cb18-355" aria-hidden="true" tabindex="-1"></a><span class="in">\end{algorithmic}</span></span>
@@ -2360,7 +2360,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb18-383"><a href="#cb18-383" aria-hidden="true" tabindex="-1"></a><span class="in">  plot(results[[i]], legend = FALSE, predictions = FALSE, cex = 0.5, main = paste("Grid", i), ylim = c(-0.9, 0.8))</span></span>
 <span id="cb18-384"><a href="#cb18-384" aria-hidden="true" tabindex="-1"></a><span class="in">  text(x = -10, y = -0.75, labels = bquote(EmpCov == .(coverage[[i]]) ), pos = 4)</span></span>
 <span id="cb18-385"><a href="#cb18-385" aria-hidden="true" tabindex="-1"></a><span class="in">  text(x = -10, y = -0.9, labels = bquote(PathLength == .(path_length[[i]]) ), pos = 4)</span></span>
-<span id="cb18-386"><a href="#cb18-386" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb18-386"><a href="#cb18-386" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-387"><a href="#cb18-387" aria-hidden="true" tabindex="-1"></a><span class="in">  plot_agaci_weights(results[[i]], main = "Final Aggregation Weights", legend = "topright", ylim = c(0, 1))</span></span>
 <span id="cb18-388"><a href="#cb18-388" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
 <span id="cb18-389"><a href="#cb18-389" aria-hidden="true" tabindex="-1"></a><span class="in">par(mfrow = c(1, 1), mar = c(5.1, 4.1, 4.1, 2.1))</span></span>
@@ -2424,7 +2424,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb18-447"><a href="#cb18-447" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb18-448"><a href="#cb18-448" aria-hidden="true" tabindex="-1"></a>|\mathrm{CovErr}(T)| \leq \frac{1 + 2\gamma_{\max}}{T \gamma_{\min}} + \frac{(1 + 2\gamma_{\max})^2}{\gamma_{\min}}  \frac{1}{T}\sum_{t=1}^T \eta_t \exp(\eta_t(1 + 2\gamma_{\max})) + 2 \frac{1+\gamma_{\max}}{\gamma_{\min}} \frac{1}{T} \sum_{t=1}^T \sigma_t.</span>
 <span id="cb18-449"><a href="#cb18-449" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb18-450"><a href="#cb18-450" aria-hidden="true" tabindex="-1"></a>Thus, if $\eta_t$ and $\sigma_t$ both converge to zero as $t \to \infty$, then the coverage error will also converge to zero. In addition, under mild distributional assumptions the authors provide a type of short-term coverage error bound for arbitrary time spans, for which we refer to <span class="co">[</span><span class="ot">@gibbs2022faci</span><span class="co">]</span>. </span>
+<span id="cb18-450"><a href="#cb18-450" aria-hidden="true" tabindex="-1"></a>Thus, if $\eta_t$ and $\sigma_t$ both converge to zero as $t \to \infty$, then the coverage error will also converge to zero. In addition, under mild distributional assumptions the authors provide a type of short-term coverage error bound for arbitrary time spans, for which we refer to <span class="co">[</span><span class="ot">@gibbs2022faci</span><span class="co">]</span>.</span>
 <span id="cb18-451"><a href="#cb18-451" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-452"><a href="#cb18-452" aria-hidden="true" tabindex="-1"></a>We note one additional result established by @gibbs2022faci (their Theorem 3.1) on a slightly different dynamic regret bound in terms of the pinball loss, as it informs the choice of tuning parameters. Let $\gamma_{\mathrm{max}} = \max_{1 \leq k \leq K} \gamma_k$ be the largest learning rate in the grid and assume that $\gamma_1 &lt; \gamma_2 &lt; \cdots &lt; \gamma_K$ with $\gamma_{k+1}/\gamma \leq 2$ for all $1 \leq k &lt; K$. Then, for any interval $I = <span class="co">[</span><span class="ot">r, s</span><span class="co">]</span> \subseteq \llbracket T \rrbracket$ and any sequence $\theta_r^*, \dots, \theta_s^*$, under the assumption that $\gamma_k \geq \sqrt{1 + 1 / |I|}$,</span>
 <span id="cb18-453"><a href="#cb18-453" aria-hidden="true" tabindex="-1"></a>$$</span>
@@ -2451,7 +2451,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb18-474"><a href="#cb18-474" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb18-475"><a href="#cb18-475" aria-hidden="true" tabindex="-1"></a>Both ways of choosing $\eta$ led to very similar results in the original author's empirical studies. In our proposed <span class="in">`AdaptiveConformal`</span> package, the first approach is used when the quantile interval construction function is chosen, and the latter approach for the linear interval construction function.</span>
 <span id="cb18-476"><a href="#cb18-476" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-477"><a href="#cb18-477" aria-hidden="true" tabindex="-1"></a>@fig-dtaci-example illustrates DtACI with the quantile interval construction function and with the learning rate grid $\gamma \in <span class="sc">\{</span> 0.001, 0.002, 0.004, 0.008, 0.016, 0.032, 0.064, 0.128 <span class="sc">\}</span>$. The tuning parameter $\eta$ was set to $0.001$, $1$, and $100$ to show how the algorithm responds to extreme choices of the parameter, and to $\eta \approx 3.19$ according to the optimal choice recommendation with $I = 100$ as described in the previous section. The results show that, in this simple example, high values of $\eta$ may lead to intervals that are too reactive to the data, as seen in the longer path length. The algorithm appears more robust, however, to small choices of $\eta$. </span>
+<span id="cb18-477"><a href="#cb18-477" aria-hidden="true" tabindex="-1"></a>@fig-dtaci-example illustrates DtACI with the quantile interval construction function and with the learning rate grid $\gamma \in <span class="sc">\{</span> 0.001, 0.002, 0.004, 0.008, 0.016, 0.032, 0.064, 0.128 <span class="sc">\}</span>$. The tuning parameter $\eta$ was set to $0.001$, $1$, and $100$ to show how the algorithm responds to extreme choices of the parameter, and to $\eta \approx 3.19$ according to the optimal choice recommendation with $I = 100$ as described in the previous section. The results show that, in this simple example, high values of $\eta$ may lead to intervals that are too reactive to the data, as seen in the longer path length. The algorithm appears more robust, however, to small choices of $\eta$.</span>
 <span id="cb18-478"><a href="#cb18-478" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-479"><a href="#cb18-479" aria-hidden="true" tabindex="-1"></a><span class="in">```{r faci_example_plot, echo = FALSE}</span></span>
 <span id="cb18-480"><a href="#cb18-480" aria-hidden="true" tabindex="-1"></a><span class="in">#| label: fig-dtaci-example</span></span>
@@ -2493,18 +2493,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb18-516"><a href="#cb18-516" aria-hidden="true" tabindex="-1"></a><span class="in">\begin{algorithmic}</span></span>
 <span id="cb18-517"><a href="#cb18-517" aria-hidden="true" tabindex="-1"></a><span class="in">\State \textbf{Input:} starting value $\theta_1$, learning rate $\gamma &gt; 0$.</span></span>
 <span id="cb18-518"><a href="#cb18-518" aria-hidden="true" tabindex="-1"></a><span class="in">\For{$t = 1, 2, \dots, T$}</span></span>
-<span id="cb18-519"><a href="#cb18-519" aria-hidden="true" tabindex="-1"></a><span class="in">  \State \textbf{Output:} prediction interval $\widehat{C}_t(\theta_t)$. </span></span>
-<span id="cb18-520"><a href="#cb18-520" aria-hidden="true" tabindex="-1"></a><span class="in">  \State Observe $y_t$ and compute $r_t$. </span></span>
+<span id="cb18-519"><a href="#cb18-519" aria-hidden="true" tabindex="-1"></a><span class="in">  \State \textbf{Output:} prediction interval $\widehat{C}_t(\theta_t)$.</span></span>
+<span id="cb18-520"><a href="#cb18-520" aria-hidden="true" tabindex="-1"></a><span class="in">  \State Observe $y_t$ and compute $r_t$.</span></span>
 <span id="cb18-521"><a href="#cb18-521" aria-hidden="true" tabindex="-1"></a><span class="in">  \State Update $\theta_{t+1} = \theta_t - \gamma \frac{\nabla L^\alpha(\theta_t, r_t)}{\sqrt{\sum_{i=1}^t} \| \nabla L^\alpha(\theta_i, r_i) \|_2^2}$.</span></span>
 <span id="cb18-522"><a href="#cb18-522" aria-hidden="true" tabindex="-1"></a><span class="in">\EndFor</span></span>
 <span id="cb18-523"><a href="#cb18-523" aria-hidden="true" tabindex="-1"></a><span class="in">\end{algorithmic}</span></span>
 <span id="cb18-524"><a href="#cb18-524" aria-hidden="true" tabindex="-1"></a><span class="in">\end{algorithm}</span></span>
 <span id="cb18-525"><a href="#cb18-525" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb18-526"><a href="#cb18-526" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-527"><a href="#cb18-527" aria-hidden="true" tabindex="-1"></a>Scale-Free Online Gradient Descent (SF-OGD; @algo-sfogd) is a general algorithm for online learning proposed by @orabona2018sfogd. The algorithm updates $\theta_t$ with a gradient descent step where the learning rate adapts to the scale of the previously observed gradients. SF-OGD was first used in the context of ACI as a sub-algorithm for SAOCP (described in the next section). However, it was found to have good performance by itself <span class="co">[</span><span class="ot">@bhatnagar2023saocp</span><span class="co">]</span> in real-world tasks, so we have made it available in the package as a stand-alone algorithm. </span>
+<span id="cb18-527"><a href="#cb18-527" aria-hidden="true" tabindex="-1"></a>Scale-Free Online Gradient Descent (SF-OGD; @algo-sfogd) is a general algorithm for online learning proposed by @orabona2018sfogd. The algorithm updates $\theta_t$ with a gradient descent step where the learning rate adapts to the scale of the previously observed gradients. SF-OGD was first used in the context of ACI as a sub-algorithm for SAOCP (described in the next section). However, it was found to have good performance by itself <span class="co">[</span><span class="ot">@bhatnagar2023saocp</span><span class="co">]</span> in real-world tasks, so we have made it available in the package as a stand-alone algorithm.</span>
 <span id="cb18-528"><a href="#cb18-528" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-529"><a href="#cb18-529" aria-hidden="true" tabindex="-1"></a><span class="fu">### Theoretical Guarantees</span></span>
-<span id="cb18-530"><a href="#cb18-530" aria-hidden="true" tabindex="-1"></a>The SF-OGD algorithm with linear interval constructor has the following regret bound, which is called an _anytime regret bound_ because it holds for all $t \in \llbracket T \rrbracket$ <span class="co">[</span><span class="ot">@bhatnagar2023saocp</span><span class="co">]</span>. For any $\gamma &gt; 0$, </span>
+<span id="cb18-530"><a href="#cb18-530" aria-hidden="true" tabindex="-1"></a>The SF-OGD algorithm with linear interval constructor has the following regret bound, which is called an _anytime regret bound_ because it holds for all $t \in \llbracket T \rrbracket$ <span class="co">[</span><span class="ot">@bhatnagar2023saocp</span><span class="co">]</span>. For any $\gamma &gt; 0$,</span>
 <span id="cb18-531"><a href="#cb18-531" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb18-532"><a href="#cb18-532" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
 <span id="cb18-533"><a href="#cb18-533" aria-hidden="true" tabindex="-1"></a>  \mathrm{Reg}(t) \leq \mathcal{O}(D \sqrt{t}) \text{ for all } t \in \llbracket T \rrbracket.</span>
@@ -2518,7 +2518,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb18-541"><a href="#cb18-541" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb18-542"><a href="#cb18-542" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-543"><a href="#cb18-543" aria-hidden="true" tabindex="-1"></a><span class="fu">### Tuning parameters</span></span>
-<span id="cb18-544"><a href="#cb18-544" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">@fig-sf-ogd</span><span class="co">]</span> compares results for several choices of $\gamma$ to illustrate its effect. The optimal choice of learning rate is $\gamma = D / \sqrt{3}$, where $D$ is the maximum possible radius. When $D$ is not known, it can be estimated by using an initial subset of the time series as a calibration set and estimating $D$ as the maximum of the absolute residuals of the observations and the predictions <span class="co">[</span><span class="ot">@bhatnagar2023saocp</span><span class="co">]</span>. @fig-sf-ogd illustrates SF-OGD for several values of $\gamma$. In the example, the prediction intervals are not reactive enough and do not achieve optimal coverage when $\gamma$ is small. As $\gamma$ increases, the coverage error is near optimal, although the path length becomes larger.  </span>
+<span id="cb18-544"><a href="#cb18-544" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">@fig-sf-ogd</span><span class="co">]</span> compares results for several choices of $\gamma$ to illustrate its effect. The optimal choice of learning rate is $\gamma = D / \sqrt{3}$, where $D$ is the maximum possible radius. When $D$ is not known, it can be estimated by using an initial subset of the time series as a calibration set and estimating $D$ as the maximum of the absolute residuals of the observations and the predictions <span class="co">[</span><span class="ot">@bhatnagar2023saocp</span><span class="co">]</span>. @fig-sf-ogd illustrates SF-OGD for several values of $\gamma$. In the example, the prediction intervals are not reactive enough and do not achieve optimal coverage when $\gamma$ is small. As $\gamma$ increases, the coverage error is near optimal, although the path length becomes larger.</span>
 <span id="cb18-545"><a href="#cb18-545" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-546"><a href="#cb18-546" aria-hidden="true" tabindex="-1"></a><span class="in">```{r sfogd_example_plot, echo = FALSE}</span></span>
 <span id="cb18-547"><a href="#cb18-547" aria-hidden="true" tabindex="-1"></a><span class="in">#| label: fig-sf-ogd</span></span>
@@ -2567,7 +2567,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb18-590"><a href="#cb18-590" aria-hidden="true" tabindex="-1"></a><span class="in">  \State Normalize $p = \hat{p} / \| \hat{p} \|_1 \in \Delta^t$ if $\| \hat{p} \|_1 &gt; 0$, else $p = \pi$.</span></span>
 <span id="cb18-591"><a href="#cb18-591" aria-hidden="true" tabindex="-1"></a><span class="in">  \State Set $\theta_t = \sum_{i \in \mathrm{Active}(t)} p_i \theta_t^i$ (for $t \geq 2$), and $\theta_t = 0$ for $t = 1$.</span></span>
 <span id="cb18-592"><a href="#cb18-592" aria-hidden="true" tabindex="-1"></a><span class="in">  \State \textbf{Output:} prediction set $\widehat{C}_t(\theta_t)$.</span></span>
-<span id="cb18-593"><a href="#cb18-593" aria-hidden="true" tabindex="-1"></a><span class="in">  \State Observe $y_t$ and compute $r_t$. </span></span>
+<span id="cb18-593"><a href="#cb18-593" aria-hidden="true" tabindex="-1"></a><span class="in">  \State Observe $y_t$ and compute $r_t$.</span></span>
 <span id="cb18-594"><a href="#cb18-594" aria-hidden="true" tabindex="-1"></a><span class="in">  \For{$i \in \mathrm{Active}(t)$}</span></span>
 <span id="cb18-595"><a href="#cb18-595" aria-hidden="true" tabindex="-1"></a><span class="in">    \State Update expert $\mathcal{A}_t$ with $y_t$ and obtain $\theta_{t+1}^i$.</span></span>
 <span id="cb18-596"><a href="#cb18-596" aria-hidden="true" tabindex="-1"></a><span class="in">    \State Compute $g_t^i = \begin{cases}</span></span>
@@ -2581,13 +2581,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb18-604"><a href="#cb18-604" aria-hidden="true" tabindex="-1"></a><span class="in">\end{algorithm}</span></span>
 <span id="cb18-605"><a href="#cb18-605" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb18-606"><a href="#cb18-606" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-607"><a href="#cb18-607" aria-hidden="true" tabindex="-1"></a>The Strongly Adaptive Online Conformal Prediction (SAOCP; @algo-saocp) algorithm was proposed as an improvement over the extant ACI algorithms in that it features stronger theoretical guarantees. SAOCP works similarly to AgACI and DtACI in that it maintains a library of candidate online learning algorithms that generate prediction intervals which are then aggregated using a meta-algorithm <span class="co">[</span><span class="ot">@bhatnagar2023saocp</span><span class="co">]</span>. The candidate algorithm was chosen to be SF-OGD, although any algorithm that features anytime regret guarantees can be chosen. As opposed to AgACI and DtACI, in which each candidate has a different learning rate but is always able to contribute to the final prediction intervals, here each candidate has the same learning rate but only has positive weight over a specific interval of time. New candidate algorithms are continually being spawned in order that, if the distribution shifts rapidly, the newer candidates will be able to react quickly and receive positive weight. Specifically, at each time point, a new expert is instantiated which is active over a finite ``lifetime". Define the _lifetime_ of an expert instantiated at time $t$ as </span>
+<span id="cb18-607"><a href="#cb18-607" aria-hidden="true" tabindex="-1"></a>The Strongly Adaptive Online Conformal Prediction (SAOCP; @algo-saocp) algorithm was proposed as an improvement over the extant ACI algorithms in that it features stronger theoretical guarantees. SAOCP works similarly to AgACI and DtACI in that it maintains a library of candidate online learning algorithms that generate prediction intervals which are then aggregated using a meta-algorithm <span class="co">[</span><span class="ot">@bhatnagar2023saocp</span><span class="co">]</span>. The candidate algorithm was chosen to be SF-OGD, although any algorithm that features anytime regret guarantees can be chosen. As opposed to AgACI and DtACI, in which each candidate has a different learning rate but is always able to contribute to the final prediction intervals, here each candidate has the same learning rate but only has positive weight over a specific interval of time. New candidate algorithms are continually being spawned in order that, if the distribution shifts rapidly, the newer candidates will be able to react quickly and receive positive weight. Specifically, at each time point, a new expert is instantiated which is active over a finite ``lifetime". Define the _lifetime_ of an expert instantiated at time $t$ as</span>
 <span id="cb18-608"><a href="#cb18-608" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb18-609"><a href="#cb18-609" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
 <span id="cb18-610"><a href="#cb18-610" aria-hidden="true" tabindex="-1"></a>  L(t) := g \cdot \max_{n \in \mathbb{Z}} <span class="sc">\{</span> 2^n t \equiv 0 \mod 2^n <span class="sc">\}</span>,</span>
 <span id="cb18-611"><a href="#cb18-611" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
 <span id="cb18-612"><a href="#cb18-612" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb18-613"><a href="#cb18-613" aria-hidden="true" tabindex="-1"></a>where $g \in \mathbb{Z}^*$ is a _lifetime multiplier_ parameter. The active experts are weighted according to their empirical performance with respect to the pinball loss function. The authors show that this construction results in intervals that have strong regret guarantees. The form of the lifetime interval function $L(t)$ is due to the use of geometric covering intervals to partition the input time series, and other choices may be possible <span class="co">[</span><span class="ot">@jun2017coinbetting</span><span class="co">]</span>. </span>
+<span id="cb18-613"><a href="#cb18-613" aria-hidden="true" tabindex="-1"></a>where $g \in \mathbb{Z}^*$ is a _lifetime multiplier_ parameter. The active experts are weighted according to their empirical performance with respect to the pinball loss function. The authors show that this construction results in intervals that have strong regret guarantees. The form of the lifetime interval function $L(t)$ is due to the use of geometric covering intervals to partition the input time series, and other choices may be possible <span class="co">[</span><span class="ot">@jun2017coinbetting</span><span class="co">]</span>.</span>
 <span id="cb18-614"><a href="#cb18-614" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-615"><a href="#cb18-615" aria-hidden="true" tabindex="-1"></a><span class="fu">### Theoretical Guarantees</span></span>
 <span id="cb18-616"><a href="#cb18-616" aria-hidden="true" tabindex="-1"></a>The theoretical results were established for SAOCP using the linear interval constructor. The following bound for the strongly adaptive regret holds for all subperiod lengths $m \in \llbracket T \rrbracket$ (@bhatnagar2023saocp; Proposition 4.1):</span>
@@ -2632,7 +2632,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb18-655"><a href="#cb18-655" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb18-656"><a href="#cb18-656" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-657"><a href="#cb18-657" aria-hidden="true" tabindex="-1"></a><span class="fu"># `AdaptiveConformal` `R` package</span></span>
-<span id="cb18-658"><a href="#cb18-658" aria-hidden="true" tabindex="-1"></a>The ACI algorithms described in the previous section have been implemented in the open-source and publically available <span class="in">`R`</span> package <span class="in">`AdaptiveConformal`</span>, available at <span class="co">[</span><span class="ot">https://github.com/herbps10/AdaptiveConformal</span><span class="co">](https://github.com/herbps10/AdaptiveConformal)</span>. CIn this section, we briefly introduce the main functionality of the package. Comprehensive documentation is, including several example vignettes, is included with the package. </span>
+<span id="cb18-658"><a href="#cb18-658" aria-hidden="true" tabindex="-1"></a>The ACI algorithms described in the previous section have been implemented in the open-source and publically available <span class="in">`R`</span> package <span class="in">`AdaptiveConformal`</span>, available at <span class="co">[</span><span class="ot">https://github.com/herbps10/AdaptiveConformal</span><span class="co">](https://github.com/herbps10/AdaptiveConformal)</span>. CIn this section, we briefly introduce the main functionality of the package. Comprehensive documentation is, including several example vignettes, is included with the package.</span>
 <span id="cb18-659"><a href="#cb18-659" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-660"><a href="#cb18-660" aria-hidden="true" tabindex="-1"></a>The <span class="in">`AdaptiveConformal`</span> package can be installed using the <span class="in">`remotes`</span> package:</span>
 <span id="cb18-661"><a href="#cb18-661" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, eval = FALSE}</span></span>
@@ -2655,7 +2655,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb18-682"><a href="#cb18-682" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb18-683"><a href="#cb18-683" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-684"><a href="#cb18-684" aria-hidden="true" tabindex="-1"></a><span class="fu"># Simulation Studies {#sec-simulations}</span></span>
-<span id="cb18-685"><a href="#cb18-685" aria-hidden="true" tabindex="-1"></a>We present two empirical studies in order to compare the performance of the AgACI, DtACI, SF-OGD, and SAOCP algorithms applied to simple simulated datasets. The original ACI algorithm was not included as it is not clear how to set the tuning rate $\gamma$, which can have a large effect on the resulting intervals. For both simulations we set the targeted empirical coverage to $\alpha = 0.8$, $\alpha = 0.9$, and $\alpha = 0.95$. For each algorithm, we chose the interval constructor that was used in its original presentation (see @tbl-aci). </span>
+<span id="cb18-685"><a href="#cb18-685" aria-hidden="true" tabindex="-1"></a>We present two empirical studies in order to compare the performance of the AgACI, DtACI, SF-OGD, and SAOCP algorithms applied to simple simulated datasets. The original ACI algorithm was not included as it is not clear how to set the tuning rate $\gamma$, which can have a large effect on the resulting intervals. For both simulations we set the targeted empirical coverage to $\alpha = 0.8$, $\alpha = 0.9$, and $\alpha = 0.95$. For each algorithm, we chose the interval constructor that was used in its original presentation (see @tbl-aci).</span>
 <span id="cb18-686"><a href="#cb18-686" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-687"><a href="#cb18-687" aria-hidden="true" tabindex="-1"></a><span class="fu">## Time series with ARMA errors</span></span>
 <span id="cb18-688"><a href="#cb18-688" aria-hidden="true" tabindex="-1"></a>In this simulation we reproduce the setup described in @zaffran2022agaci (itself based on that of @friedman1983). The time series values $y_t$ for $t \in \llbracket T \rrbracket$ ($T = 600$) are simulated according to</span>
@@ -2673,20 +2673,20 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb18-700"><a href="#cb18-700" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb18-701"><a href="#cb18-701" aria-hidden="true" tabindex="-1"></a>We set $\psi$ and $\theta$ jointly to each value in $<span class="sc">\{</span> 0.1, 0.8, 0.9, 0.95, 0.99 <span class="sc">\}</span>$ to simulate time series with increasing temporal dependence. The innovation variance was set to $\sigma^2 = (1 - \psi^2) / (1 + 2\psi \xi + \xi^2)$ (to ensure that the process has constant variance). For each setting, 25 simulated datasets were generated.</span>
 <span id="cb18-702"><a href="#cb18-702" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-703"><a href="#cb18-703" aria-hidden="true" tabindex="-1"></a>To provide point predictions for the ACI algorithms, at each time $t \geq 200$ a random forest model was fitted to the previously observed data using the <span class="in">`ranger`</span> <span class="in">`R`</span> package <span class="co">[</span><span class="ot">@wright2017ranger</span><span class="co">]</span>. The estimated model was then used to predict the subsequent time point. The maximum radius $D$ was estimated as the maximum residual observed between time points $t=200$ and $t=249$. The ACI models were then executed starting at time point $t = 250$. All metrics are based on time points $t \geq 300$ to allow time for the ACI methods to initialize. </span>
+<span id="cb18-703"><a href="#cb18-703" aria-hidden="true" tabindex="-1"></a>To provide point predictions for the ACI algorithms, at each time $t \geq 200$ a random forest model was fitted to the previously observed data using the <span class="in">`ranger`</span> <span class="in">`R`</span> package <span class="co">[</span><span class="ot">@wright2017ranger</span><span class="co">]</span>. The estimated model was then used to predict the subsequent time point. The maximum radius $D$ was estimated as the maximum residual observed between time points $t=200$ and $t=249$. The ACI models were then executed starting at time point $t = 250$. All metrics are based on time points $t \geq 300$ to allow time for the ACI methods to initialize.</span>
 <span id="cb18-704"><a href="#cb18-704" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-705"><a href="#cb18-705" aria-hidden="true" tabindex="-1"></a><span class="in">```{r simulation_study_one, cache = TRUE}</span></span>
 <span id="cb18-706"><a href="#cb18-706" aria-hidden="true" tabindex="-1"></a><span class="in">simulate &lt;- function(seed, psi, xi, N = 1e3) {</span></span>
 <span id="cb18-707"><a href="#cb18-707" aria-hidden="true" tabindex="-1"></a><span class="in">  set.seed(seed)</span></span>
-<span id="cb18-708"><a href="#cb18-708" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb18-708"><a href="#cb18-708" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-709"><a href="#cb18-709" aria-hidden="true" tabindex="-1"></a><span class="in">  s &lt;- 10</span></span>
 <span id="cb18-710"><a href="#cb18-710" aria-hidden="true" tabindex="-1"></a><span class="in">  innov_scale &lt;- sqrt(s * (1 - psi^2) / (1 + 2 * psi * xi + xi^2))</span></span>
-<span id="cb18-711"><a href="#cb18-711" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb18-711"><a href="#cb18-711" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-712"><a href="#cb18-712" aria-hidden="true" tabindex="-1"></a><span class="in">  X &lt;- matrix(runif(6 * N), ncol = 6, nrow = N)</span></span>
 <span id="cb18-713"><a href="#cb18-713" aria-hidden="true" tabindex="-1"></a><span class="in">  colnames(X) &lt;- paste0("X", 1:6)</span></span>
-<span id="cb18-714"><a href="#cb18-714" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb18-714"><a href="#cb18-714" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-715"><a href="#cb18-715" aria-hidden="true" tabindex="-1"></a><span class="in">  epsilon &lt;- arima.sim(n = N, model = list(ar = psi, ma = xi), sd = innov_scale)</span></span>
-<span id="cb18-716"><a href="#cb18-716" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb18-716"><a href="#cb18-716" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-717"><a href="#cb18-717" aria-hidden="true" tabindex="-1"></a><span class="in">  mu &lt;- 10 * sin(pi * X[,1] * X[,2]) + 20 * (X[,3] - 0.5)^2 + 10 * X[,4] + 5 * X[,5]</span></span>
 <span id="cb18-718"><a href="#cb18-718" aria-hidden="true" tabindex="-1"></a><span class="in">  y &lt;- mu + epsilon</span></span>
 <span id="cb18-719"><a href="#cb18-719" aria-hidden="true" tabindex="-1"></a><span class="in">  as_tibble(X) %&gt;% mutate(y = y)</span></span>
@@ -2709,36 +2709,36 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb18-736"><a href="#cb18-736" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-737"><a href="#cb18-737" aria-hidden="true" tabindex="-1"></a><span class="in">fit &lt;- function(data, preds, method, alpha, p = NULL) {</span></span>
 <span id="cb18-738"><a href="#cb18-738" aria-hidden="true" tabindex="-1"></a><span class="in">  if(!is.null(p)) p()</span></span>
-<span id="cb18-739"><a href="#cb18-739" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb18-739"><a href="#cb18-739" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-740"><a href="#cb18-740" aria-hidden="true" tabindex="-1"></a><span class="in">  D &lt;- max(abs(data$y - preds)[200:249])</span></span>
 <span id="cb18-741"><a href="#cb18-741" aria-hidden="true" tabindex="-1"></a><span class="in">  gamma &lt;- D / sqrt(3)</span></span>
-<span id="cb18-742"><a href="#cb18-742" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb18-742"><a href="#cb18-742" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-743"><a href="#cb18-743" aria-hidden="true" tabindex="-1"></a><span class="in">  interval_constructor = case_when(</span></span>
 <span id="cb18-744"><a href="#cb18-744" aria-hidden="true" tabindex="-1"></a><span class="in">    method == "AgACI" ~ "conformal",</span></span>
 <span id="cb18-745"><a href="#cb18-745" aria-hidden="true" tabindex="-1"></a><span class="in">    method == "DtACI" ~ "conformal",</span></span>
 <span id="cb18-746"><a href="#cb18-746" aria-hidden="true" tabindex="-1"></a><span class="in">    method == "SF-OGD" ~ "linear",</span></span>
 <span id="cb18-747"><a href="#cb18-747" aria-hidden="true" tabindex="-1"></a><span class="in">    method == "SAOCP" ~ "linear"</span></span>
 <span id="cb18-748"><a href="#cb18-748" aria-hidden="true" tabindex="-1"></a><span class="in">  )</span></span>
-<span id="cb18-749"><a href="#cb18-749" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb18-749"><a href="#cb18-749" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-750"><a href="#cb18-750" aria-hidden="true" tabindex="-1"></a><span class="in">  if(interval_constructor == "linear") {</span></span>
 <span id="cb18-751"><a href="#cb18-751" aria-hidden="true" tabindex="-1"></a><span class="in">    gamma_grid = seq(0.1, 1, 0.1)</span></span>
 <span id="cb18-752"><a href="#cb18-752" aria-hidden="true" tabindex="-1"></a><span class="in">  }</span></span>
 <span id="cb18-753"><a href="#cb18-753" aria-hidden="true" tabindex="-1"></a><span class="in">  else {</span></span>
 <span id="cb18-754"><a href="#cb18-754" aria-hidden="true" tabindex="-1"></a><span class="in">    gamma_grid &lt;- c(0.001, 0.002, 0.004, 0.008, 0.016, 0.032, 0.064, 0.128)</span></span>
 <span id="cb18-755"><a href="#cb18-755" aria-hidden="true" tabindex="-1"></a><span class="in">  }</span></span>
-<span id="cb18-756"><a href="#cb18-756" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb18-756"><a href="#cb18-756" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-757"><a href="#cb18-757" aria-hidden="true" tabindex="-1"></a><span class="in">  parameters &lt;- list(</span></span>
-<span id="cb18-758"><a href="#cb18-758" aria-hidden="true" tabindex="-1"></a><span class="in">    interval_constructor = interval_constructor, </span></span>
-<span id="cb18-759"><a href="#cb18-759" aria-hidden="true" tabindex="-1"></a><span class="in">    D = D, </span></span>
-<span id="cb18-760"><a href="#cb18-760" aria-hidden="true" tabindex="-1"></a><span class="in">    gamma = gamma, </span></span>
+<span id="cb18-758"><a href="#cb18-758" aria-hidden="true" tabindex="-1"></a><span class="in">    interval_constructor = interval_constructor,</span></span>
+<span id="cb18-759"><a href="#cb18-759" aria-hidden="true" tabindex="-1"></a><span class="in">    D = D,</span></span>
+<span id="cb18-760"><a href="#cb18-760" aria-hidden="true" tabindex="-1"></a><span class="in">    gamma = gamma,</span></span>
 <span id="cb18-761"><a href="#cb18-761" aria-hidden="true" tabindex="-1"></a><span class="in">    gamma_grid = gamma_grid</span></span>
 <span id="cb18-762"><a href="#cb18-762" aria-hidden="true" tabindex="-1"></a><span class="in">  )</span></span>
-<span id="cb18-763"><a href="#cb18-763" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb18-763"><a href="#cb18-763" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-764"><a href="#cb18-764" aria-hidden="true" tabindex="-1"></a><span class="in">  aci(</span></span>
-<span id="cb18-765"><a href="#cb18-765" aria-hidden="true" tabindex="-1"></a><span class="in">    data$y[250:nrow(data)], </span></span>
-<span id="cb18-766"><a href="#cb18-766" aria-hidden="true" tabindex="-1"></a><span class="in">    preds[250:nrow(data)], </span></span>
-<span id="cb18-767"><a href="#cb18-767" aria-hidden="true" tabindex="-1"></a><span class="in">    method = method, </span></span>
-<span id="cb18-768"><a href="#cb18-768" aria-hidden="true" tabindex="-1"></a><span class="in">    alpha = alpha, </span></span>
+<span id="cb18-765"><a href="#cb18-765" aria-hidden="true" tabindex="-1"></a><span class="in">    data$y[250:nrow(data)],</span></span>
+<span id="cb18-766"><a href="#cb18-766" aria-hidden="true" tabindex="-1"></a><span class="in">    preds[250:nrow(data)],</span></span>
+<span id="cb18-767"><a href="#cb18-767" aria-hidden="true" tabindex="-1"></a><span class="in">    method = method,</span></span>
+<span id="cb18-768"><a href="#cb18-768" aria-hidden="true" tabindex="-1"></a><span class="in">    alpha = alpha,</span></span>
 <span id="cb18-769"><a href="#cb18-769" aria-hidden="true" tabindex="-1"></a><span class="in">    parameters = parameters</span></span>
 <span id="cb18-770"><a href="#cb18-770" aria-hidden="true" tabindex="-1"></a><span class="in">  )</span></span>
 <span id="cb18-771"><a href="#cb18-771" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
@@ -2788,9 +2788,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb18-815"><a href="#cb18-815" aria-hidden="true" tabindex="-1"></a><span class="in">par(mfrow = c(2, 2), mar = c(3, 4, 2, 1))</span></span>
 <span id="cb18-816"><a href="#cb18-816" aria-hidden="true" tabindex="-1"></a><span class="in">for(i in 1:4) {</span></span>
 <span id="cb18-817"><a href="#cb18-817" aria-hidden="true" tabindex="-1"></a><span class="in">  plot(</span></span>
-<span id="cb18-818"><a href="#cb18-818" aria-hidden="true" tabindex="-1"></a><span class="in">    diff(fits$fit[[i]]$intervals[,2] - fits$fit[[i]]$intervals[,1]), </span></span>
-<span id="cb18-819"><a href="#cb18-819" aria-hidden="true" tabindex="-1"></a><span class="in">    main = fits$method[[i]], </span></span>
-<span id="cb18-820"><a href="#cb18-820" aria-hidden="true" tabindex="-1"></a><span class="in">    xlab = "T", </span></span>
+<span id="cb18-818"><a href="#cb18-818" aria-hidden="true" tabindex="-1"></a><span class="in">    diff(fits$fit[[i]]$intervals[,2] - fits$fit[[i]]$intervals[,1]),</span></span>
+<span id="cb18-819"><a href="#cb18-819" aria-hidden="true" tabindex="-1"></a><span class="in">    main = fits$method[[i]],</span></span>
+<span id="cb18-820"><a href="#cb18-820" aria-hidden="true" tabindex="-1"></a><span class="in">    xlab = "T",</span></span>
 <span id="cb18-821"><a href="#cb18-821" aria-hidden="true" tabindex="-1"></a><span class="in">    ylab = expression(w[t] - w[t - 1]))</span></span>
 <span id="cb18-822"><a href="#cb18-822" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
 <span id="cb18-823"><a href="#cb18-823" aria-hidden="true" tabindex="-1"></a><span class="in">par(mfrow = c(1, 1), mar = c(5.1, 4.1, 4.1, 2.1))</span></span>
@@ -2839,7 +2839,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb18-866"><a href="#cb18-866" aria-hidden="true" tabindex="-1"></a><span class="in">  shift &lt;- 1:N &gt; (N / 2)</span></span>
 <span id="cb18-867"><a href="#cb18-867" aria-hidden="true" tabindex="-1"></a><span class="in">  yhat &lt;- mu</span></span>
 <span id="cb18-868"><a href="#cb18-868" aria-hidden="true" tabindex="-1"></a><span class="in">  y &lt;- rnorm(n = length(mu), mean = mu, sd = sigma + ifelse(shift, distribution_shift, 0))</span></span>
-<span id="cb18-869"><a href="#cb18-869" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb18-869"><a href="#cb18-869" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-870"><a href="#cb18-870" aria-hidden="true" tabindex="-1"></a><span class="in">  tibble(y = y, yhat = yhat)</span></span>
 <span id="cb18-871"><a href="#cb18-871" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
 <span id="cb18-872"><a href="#cb18-872" aria-hidden="true" tabindex="-1"></a></span>
@@ -2851,37 +2851,37 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb18-878"><a href="#cb18-878" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-879"><a href="#cb18-879" aria-hidden="true" tabindex="-1"></a><span class="in">fit &lt;- function(data, method, alpha, p = NULL) {</span></span>
 <span id="cb18-880"><a href="#cb18-880" aria-hidden="true" tabindex="-1"></a><span class="in">  if(!is.null(p)) p()</span></span>
-<span id="cb18-881"><a href="#cb18-881" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb18-881"><a href="#cb18-881" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-882"><a href="#cb18-882" aria-hidden="true" tabindex="-1"></a><span class="in">  interval_constructor = case_when(</span></span>
 <span id="cb18-883"><a href="#cb18-883" aria-hidden="true" tabindex="-1"></a><span class="in">    method == "AgACI" ~ "conformal",</span></span>
 <span id="cb18-884"><a href="#cb18-884" aria-hidden="true" tabindex="-1"></a><span class="in">    method == "DtACI" ~ "conformal",</span></span>
 <span id="cb18-885"><a href="#cb18-885" aria-hidden="true" tabindex="-1"></a><span class="in">    method == "SF-OGD" ~ "linear",</span></span>
 <span id="cb18-886"><a href="#cb18-886" aria-hidden="true" tabindex="-1"></a><span class="in">    method == "SAOCP" ~ "linear"</span></span>
 <span id="cb18-887"><a href="#cb18-887" aria-hidden="true" tabindex="-1"></a><span class="in">  )</span></span>
-<span id="cb18-888"><a href="#cb18-888" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb18-888"><a href="#cb18-888" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-889"><a href="#cb18-889" aria-hidden="true" tabindex="-1"></a><span class="in">  if(interval_constructor == "linear") {</span></span>
 <span id="cb18-890"><a href="#cb18-890" aria-hidden="true" tabindex="-1"></a><span class="in">    D &lt;- max(abs(data$y - data$yhat)[1:50])</span></span>
 <span id="cb18-891"><a href="#cb18-891" aria-hidden="true" tabindex="-1"></a><span class="in">  }</span></span>
 <span id="cb18-892"><a href="#cb18-892" aria-hidden="true" tabindex="-1"></a><span class="in">  else {</span></span>
 <span id="cb18-893"><a href="#cb18-893" aria-hidden="true" tabindex="-1"></a><span class="in">    D &lt;- 1</span></span>
 <span id="cb18-894"><a href="#cb18-894" aria-hidden="true" tabindex="-1"></a><span class="in">  }</span></span>
-<span id="cb18-895"><a href="#cb18-895" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb18-895"><a href="#cb18-895" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-896"><a href="#cb18-896" aria-hidden="true" tabindex="-1"></a><span class="in">  gamma &lt;- D / sqrt(3)</span></span>
-<span id="cb18-897"><a href="#cb18-897" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb18-897"><a href="#cb18-897" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-898"><a href="#cb18-898" aria-hidden="true" tabindex="-1"></a><span class="in">  if(interval_constructor == "linear") {</span></span>
 <span id="cb18-899"><a href="#cb18-899" aria-hidden="true" tabindex="-1"></a><span class="in">    gamma_grid &lt;- seq(0.1, 2, 0.1)</span></span>
 <span id="cb18-900"><a href="#cb18-900" aria-hidden="true" tabindex="-1"></a><span class="in">  }</span></span>
 <span id="cb18-901"><a href="#cb18-901" aria-hidden="true" tabindex="-1"></a><span class="in">  else {</span></span>
 <span id="cb18-902"><a href="#cb18-902" aria-hidden="true" tabindex="-1"></a><span class="in">    gamma_grid &lt;- c(0.001, 0.002, 0.004, 0.008, 0.016, 0.032, 0.064, 0.128)</span></span>
 <span id="cb18-903"><a href="#cb18-903" aria-hidden="true" tabindex="-1"></a><span class="in">  }</span></span>
-<span id="cb18-904"><a href="#cb18-904" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb18-904"><a href="#cb18-904" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-905"><a href="#cb18-905" aria-hidden="true" tabindex="-1"></a><span class="in">  parameters &lt;- list(</span></span>
-<span id="cb18-906"><a href="#cb18-906" aria-hidden="true" tabindex="-1"></a><span class="in">    interval_constructor = interval_constructor, </span></span>
-<span id="cb18-907"><a href="#cb18-907" aria-hidden="true" tabindex="-1"></a><span class="in">    D = D, </span></span>
-<span id="cb18-908"><a href="#cb18-908" aria-hidden="true" tabindex="-1"></a><span class="in">    gamma = gamma, </span></span>
+<span id="cb18-906"><a href="#cb18-906" aria-hidden="true" tabindex="-1"></a><span class="in">    interval_constructor = interval_constructor,</span></span>
+<span id="cb18-907"><a href="#cb18-907" aria-hidden="true" tabindex="-1"></a><span class="in">    D = D,</span></span>
+<span id="cb18-908"><a href="#cb18-908" aria-hidden="true" tabindex="-1"></a><span class="in">    gamma = gamma,</span></span>
 <span id="cb18-909"><a href="#cb18-909" aria-hidden="true" tabindex="-1"></a><span class="in">    gamma_grid = gamma_grid</span></span>
 <span id="cb18-910"><a href="#cb18-910" aria-hidden="true" tabindex="-1"></a><span class="in">  )</span></span>
-<span id="cb18-911"><a href="#cb18-911" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb18-911"><a href="#cb18-911" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-912"><a href="#cb18-912" aria-hidden="true" tabindex="-1"></a><span class="in">  aci(data$y, data$yhat, method = method, alpha = alpha, parameters = parameters)</span></span>
 <span id="cb18-913"><a href="#cb18-913" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
 <span id="cb18-914"><a href="#cb18-914" aria-hidden="true" tabindex="-1"></a></span>
@@ -2932,7 +2932,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb18-959"><a href="#cb18-959" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-960"><a href="#cb18-960" aria-hidden="true" tabindex="-1"></a>The FluSight challenge collected forecasts for multiple prediction targets. For this case study, we focus on national (US) one-week ahead forecasts of weighted influenza-like illness (wILI), which is a population-weighted percentage of doctors visits where patients presented with influenza-like symptoms <span class="co">[</span><span class="ot">@biggerstaff2016flusight</span><span class="co">]</span>. The FluSight dataset, which is publicly available, include forecasts derived from 21 different forecasting models, from both mechanistic and statistical viewpoints <span class="co">[</span><span class="ot">@flusight2020;@tushar2018flusightnetwork;@tushar2019flusight</span><span class="co">]</span>. For our purposes, we treat the way the forecasts were produced as a black box.</span>
 <span id="cb18-961"><a href="#cb18-961" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-962"><a href="#cb18-962" aria-hidden="true" tabindex="-1"></a>Formally, let $y_{t}$, $t \in \llbracket T \rrbracket$ be the observed national wILI at time $t$, and let $\hat{\mu}_{j,t}$, $j \in \llbracket J \rrbracket$, be the one-week ahead forecast of the wILI from model $j$ at time $t$. Two of the original 21 forecasting methods were excluded from this case study due to poor predictive performance (\texttt{Delphi<span class="sc">\_</span>Uniform} and \texttt{CUBMA}). In addition, six methods had identical forecasts (\texttt{CU<span class="sc">\_</span>EAKFC<span class="sc">\_</span>SIRS}, \texttt{CU<span class="sc">\_</span>EKF<span class="sc">\_</span>SEIRS}, \texttt{CU<span class="sc">\_</span>EKF<span class="sc">\_</span>SIRS}, \texttt{CU<span class="sc">\_</span>RHF<span class="sc">\_</span>SEIRS}, \texttt{CU<span class="sc">\_</span>RHF<span class="sc">\_</span>SIRS}), and therefore we only included one (\texttt{CU<span class="sc">\_</span>EAKFC<span class="sc">\_</span>SEIRS}) in the analysis. The ACI methods were then applied to the log-observations and log-predictions, where the log-transformation was used to constrain the final prediction intervals to be positive. The first flu season (2010-2011) was used as a warm-up for each ACI method, and we report the empirical performance of the prediction intervals for the subsequent seasons (six seasons from 2012-2013 to 2016-2017). The ACI algorithms target prediction intervals with coverage of $\alpha = 0.8$, $\alpha = 0.9$, and $\alpha = 0.95$. As in the simulation study, we used the interval constructor corresponding to the original presentation of each algorithm (see @tbl-aci).  </span>
+<span id="cb18-962"><a href="#cb18-962" aria-hidden="true" tabindex="-1"></a>Formally, let $y_{t}$, $t \in \llbracket T \rrbracket$ be the observed national wILI at time $t$, and let $\hat{\mu}_{j,t}$, $j \in \llbracket J \rrbracket$, be the one-week ahead forecast of the wILI from model $j$ at time $t$. Two of the original 21 forecasting methods were excluded from this case study due to poor predictive performance (\texttt{Delphi<span class="sc">\_</span>Uniform} and \texttt{CUBMA}). In addition, six methods had identical forecasts (\texttt{CU<span class="sc">\_</span>EAKFC<span class="sc">\_</span>SIRS}, \texttt{CU<span class="sc">\_</span>EKF<span class="sc">\_</span>SEIRS}, \texttt{CU<span class="sc">\_</span>EKF<span class="sc">\_</span>SIRS}, \texttt{CU<span class="sc">\_</span>RHF<span class="sc">\_</span>SEIRS}, \texttt{CU<span class="sc">\_</span>RHF<span class="sc">\_</span>SIRS}), and therefore we only included one (\texttt{CU<span class="sc">\_</span>EAKFC<span class="sc">\_</span>SEIRS}) in the analysis. The ACI methods were then applied to the log-observations and log-predictions, where the log-transformation was used to constrain the final prediction intervals to be positive. The first flu season (2010-2011) was used as a warm-up for each ACI method, and we report the empirical performance of the prediction intervals for the subsequent seasons (six seasons from 2012-2013 to 2016-2017). The ACI algorithms target prediction intervals with coverage of $\alpha = 0.8$, $\alpha = 0.9$, and $\alpha = 0.95$. As in the simulation study, we used the interval constructor corresponding to the original presentation of each algorithm (see @tbl-aci).</span>
 <span id="cb18-963"><a href="#cb18-963" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-964"><a href="#cb18-964" aria-hidden="true" tabindex="-1"></a><span class="in">```{r case_study, cache = TRUE}</span></span>
 <span id="cb18-965"><a href="#cb18-965" aria-hidden="true" tabindex="-1"></a><span class="in"># Paste together URL so it is not cut off in PDF</span></span>
@@ -2943,35 +2943,35 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb18-970"><a href="#cb18-970" aria-hidden="true" tabindex="-1"></a><span class="in">fit &lt;- function(data, method, alpha) {</span></span>
 <span id="cb18-971"><a href="#cb18-971" aria-hidden="true" tabindex="-1"></a><span class="in">  first_season &lt;- data$Season == "2010/2011"</span></span>
 <span id="cb18-972"><a href="#cb18-972" aria-hidden="true" tabindex="-1"></a><span class="in">  D &lt;- max(abs(data$obs_value - data$Value)[first_season])</span></span>
-<span id="cb18-973"><a href="#cb18-973" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb18-973"><a href="#cb18-973" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-974"><a href="#cb18-974" aria-hidden="true" tabindex="-1"></a><span class="in">  interval_constructor = case_when(</span></span>
 <span id="cb18-975"><a href="#cb18-975" aria-hidden="true" tabindex="-1"></a><span class="in">    method == "AgACI" ~ "conformal",</span></span>
 <span id="cb18-976"><a href="#cb18-976" aria-hidden="true" tabindex="-1"></a><span class="in">    method == "DtACI" ~ "conformal",</span></span>
 <span id="cb18-977"><a href="#cb18-977" aria-hidden="true" tabindex="-1"></a><span class="in">    method == "SF-OGD" ~ "linear",</span></span>
 <span id="cb18-978"><a href="#cb18-978" aria-hidden="true" tabindex="-1"></a><span class="in">    method == "SAOCP" ~ "linear"</span></span>
 <span id="cb18-979"><a href="#cb18-979" aria-hidden="true" tabindex="-1"></a><span class="in">  )</span></span>
-<span id="cb18-980"><a href="#cb18-980" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb18-980"><a href="#cb18-980" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-981"><a href="#cb18-981" aria-hidden="true" tabindex="-1"></a><span class="in">  gamma &lt;- D / sqrt(3)</span></span>
-<span id="cb18-982"><a href="#cb18-982" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb18-982"><a href="#cb18-982" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-983"><a href="#cb18-983" aria-hidden="true" tabindex="-1"></a><span class="in">  if(interval_constructor == "linear") {</span></span>
 <span id="cb18-984"><a href="#cb18-984" aria-hidden="true" tabindex="-1"></a><span class="in">    gamma_grid = seq(0.1, 1, 0.1)</span></span>
 <span id="cb18-985"><a href="#cb18-985" aria-hidden="true" tabindex="-1"></a><span class="in">  }</span></span>
 <span id="cb18-986"><a href="#cb18-986" aria-hidden="true" tabindex="-1"></a><span class="in">  else {</span></span>
 <span id="cb18-987"><a href="#cb18-987" aria-hidden="true" tabindex="-1"></a><span class="in">    gamma_grid &lt;- c(0.001, 0.002, 0.004, 0.008, 0.016, 0.032, 0.064, 0.128)</span></span>
 <span id="cb18-988"><a href="#cb18-988" aria-hidden="true" tabindex="-1"></a><span class="in">  }</span></span>
-<span id="cb18-989"><a href="#cb18-989" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb18-989"><a href="#cb18-989" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-990"><a href="#cb18-990" aria-hidden="true" tabindex="-1"></a><span class="in">  parameters &lt;- list(</span></span>
 <span id="cb18-991"><a href="#cb18-991" aria-hidden="true" tabindex="-1"></a><span class="in">    interval_constructor = interval_constructor,</span></span>
-<span id="cb18-992"><a href="#cb18-992" aria-hidden="true" tabindex="-1"></a><span class="in">    D = D, </span></span>
-<span id="cb18-993"><a href="#cb18-993" aria-hidden="true" tabindex="-1"></a><span class="in">    gamma = gamma, </span></span>
+<span id="cb18-992"><a href="#cb18-992" aria-hidden="true" tabindex="-1"></a><span class="in">    D = D,</span></span>
+<span id="cb18-993"><a href="#cb18-993" aria-hidden="true" tabindex="-1"></a><span class="in">    gamma = gamma,</span></span>
 <span id="cb18-994"><a href="#cb18-994" aria-hidden="true" tabindex="-1"></a><span class="in">    gamma_grid = gamma_grid</span></span>
 <span id="cb18-995"><a href="#cb18-995" aria-hidden="true" tabindex="-1"></a><span class="in">  )</span></span>
-<span id="cb18-996"><a href="#cb18-996" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb18-996"><a href="#cb18-996" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-997"><a href="#cb18-997" aria-hidden="true" tabindex="-1"></a><span class="in">  aci(</span></span>
-<span id="cb18-998"><a href="#cb18-998" aria-hidden="true" tabindex="-1"></a><span class="in">    Y = log(data$obs_value), </span></span>
-<span id="cb18-999"><a href="#cb18-999" aria-hidden="true" tabindex="-1"></a><span class="in">    predictions = log(data$Value), </span></span>
-<span id="cb18-1000"><a href="#cb18-1000" aria-hidden="true" tabindex="-1"></a><span class="in">    method = method, </span></span>
-<span id="cb18-1001"><a href="#cb18-1001" aria-hidden="true" tabindex="-1"></a><span class="in">    parameters = parameters, </span></span>
+<span id="cb18-998"><a href="#cb18-998" aria-hidden="true" tabindex="-1"></a><span class="in">    Y = log(data$obs_value),</span></span>
+<span id="cb18-999"><a href="#cb18-999" aria-hidden="true" tabindex="-1"></a><span class="in">    predictions = log(data$Value),</span></span>
+<span id="cb18-1000"><a href="#cb18-1000" aria-hidden="true" tabindex="-1"></a><span class="in">    method = method,</span></span>
+<span id="cb18-1001"><a href="#cb18-1001" aria-hidden="true" tabindex="-1"></a><span class="in">    parameters = parameters,</span></span>
 <span id="cb18-1002"><a href="#cb18-1002" aria-hidden="true" tabindex="-1"></a><span class="in">    alpha = alpha</span></span>
 <span id="cb18-1003"><a href="#cb18-1003" aria-hidden="true" tabindex="-1"></a><span class="in">  )</span></span>
 <span id="cb18-1004"><a href="#cb18-1004" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
@@ -2982,18 +2982,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb18-1009"><a href="#cb18-1009" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-1010"><a href="#cb18-1010" aria-hidden="true" tabindex="-1"></a><span class="in">analysis_data &lt;- raw_data %&gt;%</span></span>
 <span id="cb18-1011"><a href="#cb18-1011" aria-hidden="true" tabindex="-1"></a><span class="in">  filter(</span></span>
-<span id="cb18-1012"><a href="#cb18-1012" aria-hidden="true" tabindex="-1"></a><span class="in">    Target == "1 wk ahead", </span></span>
-<span id="cb18-1013"><a href="#cb18-1013" aria-hidden="true" tabindex="-1"></a><span class="in">    Location == "US National", </span></span>
-<span id="cb18-1014"><a href="#cb18-1014" aria-hidden="true" tabindex="-1"></a><span class="in">    !(model_name %in% c("Delphi_Uniform", "CUBMA", "CU_EAKFC_SIRS", "CU_EKF_SEIRS", </span></span>
+<span id="cb18-1012"><a href="#cb18-1012" aria-hidden="true" tabindex="-1"></a><span class="in">    Target == "1 wk ahead",</span></span>
+<span id="cb18-1013"><a href="#cb18-1013" aria-hidden="true" tabindex="-1"></a><span class="in">    Location == "US National",</span></span>
+<span id="cb18-1014"><a href="#cb18-1014" aria-hidden="true" tabindex="-1"></a><span class="in">    !(model_name %in% c("Delphi_Uniform", "CUBMA", "CU_EAKFC_SIRS", "CU_EKF_SEIRS",</span></span>
 <span id="cb18-1015"><a href="#cb18-1015" aria-hidden="true" tabindex="-1"></a><span class="in">                        "CU_EKF_SIRS", "CU_RHF_SEIRS", "CU_RHF_SIRS"))</span></span>
 <span id="cb18-1016"><a href="#cb18-1016" aria-hidden="true" tabindex="-1"></a><span class="in">  ) %&gt;%</span></span>
 <span id="cb18-1017"><a href="#cb18-1017" aria-hidden="true" tabindex="-1"></a><span class="in">  arrange(Year, Model.Week) %&gt;%</span></span>
 <span id="cb18-1018"><a href="#cb18-1018" aria-hidden="true" tabindex="-1"></a><span class="in">  group_by(model_name) %&gt;%</span></span>
-<span id="cb18-1019"><a href="#cb18-1019" aria-hidden="true" tabindex="-1"></a><span class="in">  nest() </span></span>
+<span id="cb18-1019"><a href="#cb18-1019" aria-hidden="true" tabindex="-1"></a><span class="in">  nest()</span></span>
 <span id="cb18-1020"><a href="#cb18-1020" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-1021"><a href="#cb18-1021" aria-hidden="true" tabindex="-1"></a><span class="in">fits &lt;- expand_grid(</span></span>
-<span id="cb18-1022"><a href="#cb18-1022" aria-hidden="true" tabindex="-1"></a><span class="in">  analysis_data, </span></span>
-<span id="cb18-1023"><a href="#cb18-1023" aria-hidden="true" tabindex="-1"></a><span class="in">  tibble(method = c("AgACI", "DtACI", "SF-OGD", "SAOCP")), </span></span>
+<span id="cb18-1022"><a href="#cb18-1022" aria-hidden="true" tabindex="-1"></a><span class="in">  analysis_data,</span></span>
+<span id="cb18-1023"><a href="#cb18-1023" aria-hidden="true" tabindex="-1"></a><span class="in">  tibble(method = c("AgACI", "DtACI", "SF-OGD", "SAOCP")),</span></span>
 <span id="cb18-1024"><a href="#cb18-1024" aria-hidden="true" tabindex="-1"></a><span class="in">  tibble(alpha = c(0.8, 0.9, 0.95))</span></span>
 <span id="cb18-1025"><a href="#cb18-1025" aria-hidden="true" tabindex="-1"></a><span class="in">) %&gt;%</span></span>
 <span id="cb18-1026"><a href="#cb18-1026" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(fit = pmap(list(data, method, alpha), fit),</span></span>
@@ -3002,7 +3002,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb18-1029"><a href="#cb18-1029" aria-hidden="true" tabindex="-1"></a><span class="in">case_study_results &lt;- fits %&gt;%</span></span>
 <span id="cb18-1030"><a href="#cb18-1030" aria-hidden="true" tabindex="-1"></a><span class="in">  select(-data, -fit) %&gt;%</span></span>
 <span id="cb18-1031"><a href="#cb18-1031" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(metrics = map(metrics, as_tibble)) %&gt;%</span></span>
-<span id="cb18-1032"><a href="#cb18-1032" aria-hidden="true" tabindex="-1"></a><span class="in">  unnest(c(metrics)) </span></span>
+<span id="cb18-1032"><a href="#cb18-1032" aria-hidden="true" tabindex="-1"></a><span class="in">  unnest(c(metrics))</span></span>
 <span id="cb18-1033"><a href="#cb18-1033" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb18-1034"><a href="#cb18-1034" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-1035"><a href="#cb18-1035" aria-hidden="true" tabindex="-1"></a>The coverage errors, mean interval widths, path lengths, and strongly adaptive regret (for $m = 20$) of the prediction intervals for each of the underlying forecast models is shown in @fig-case-study-metrics. In all cases the absolute coverage error was less than $0.1$. SF-OGD performed particularly well, with coverage errors close to zero for all forecasting models. Interval widths were similar across methods, with SAOCP slightly shorter. Path Lengths were shorter for AgACI and DtACI and longer for SAOCP.</span>
@@ -3023,7 +3023,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb18-1050"><a href="#cb18-1050" aria-hidden="true" tabindex="-1"></a><span class="in">#| fig-cap: "Example conformal prediction intervals for six flu seasons based on forecasts from a SARIMA type model."</span></span>
 <span id="cb18-1051"><a href="#cb18-1051" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-1052"><a href="#cb18-1052" aria-hidden="true" tabindex="-1"></a><span class="in">sarima_fits &lt;- fits %&gt;% filter(</span></span>
-<span id="cb18-1053"><a href="#cb18-1053" aria-hidden="true" tabindex="-1"></a><span class="in">  model_name == "ReichLab_sarima_seasonal_difference_FALSE", </span></span>
+<span id="cb18-1053"><a href="#cb18-1053" aria-hidden="true" tabindex="-1"></a><span class="in">  model_name == "ReichLab_sarima_seasonal_difference_FALSE",</span></span>
 <span id="cb18-1054"><a href="#cb18-1054" aria-hidden="true" tabindex="-1"></a><span class="in">  alpha == 0.9</span></span>
 <span id="cb18-1055"><a href="#cb18-1055" aria-hidden="true" tabindex="-1"></a><span class="in">) %&gt;%</span></span>
 <span id="cb18-1056"><a href="#cb18-1056" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(output = map(fit, extract_intervals)) %&gt;%</span></span>
@@ -3039,8 +3039,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb18-1066"><a href="#cb18-1066" aria-hidden="true" tabindex="-1"></a><span class="in">  geom_line(aes(y = upper, color = method)) +</span></span>
 <span id="cb18-1067"><a href="#cb18-1067" aria-hidden="true" tabindex="-1"></a><span class="in">  facet_wrap(~Season) +</span></span>
 <span id="cb18-1068"><a href="#cb18-1068" aria-hidden="true" tabindex="-1"></a><span class="in">  labs(</span></span>
-<span id="cb18-1069"><a href="#cb18-1069" aria-hidden="true" tabindex="-1"></a><span class="in">    x = "Flu Season Week", </span></span>
-<span id="cb18-1070"><a href="#cb18-1070" aria-hidden="true" tabindex="-1"></a><span class="in">    y = "log(wILI)", </span></span>
+<span id="cb18-1069"><a href="#cb18-1069" aria-hidden="true" tabindex="-1"></a><span class="in">    x = "Flu Season Week",</span></span>
+<span id="cb18-1070"><a href="#cb18-1070" aria-hidden="true" tabindex="-1"></a><span class="in">    y = "log(wILI)",</span></span>
 <span id="cb18-1071"><a href="#cb18-1071" aria-hidden="true" tabindex="-1"></a><span class="in">    title = "SARIMA forecasts with ACI 90% prediction intervals"</span></span>
 <span id="cb18-1072"><a href="#cb18-1072" aria-hidden="true" tabindex="-1"></a><span class="in">  )</span></span>
 <span id="cb18-1073"><a href="#cb18-1073" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
@@ -3048,10 +3048,10 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb18-1075"><a href="#cb18-1075" aria-hidden="true" tabindex="-1"></a><span class="fu"># Discussion {#sec-discussion}</span></span>
 <span id="cb18-1076"><a href="#cb18-1076" aria-hidden="true" tabindex="-1"></a>The results of our simulations and case study show that, when tuning parameters are chosen well, Adaptive Conformal Inference algorithms yield well-performing prediction intervals. On the contrary, poor choice of tuning parameters can lead to intervals of low utility: for one example, Figure <span class="co">[</span><span class="ot">@fig-sf-ogd</span><span class="co">]</span> shows how choosing the tuning parameter for SF-OGD to be too small can lead to intervals that update too slowly and significantly undercover. Furthermore, in some cases the prediction intervals may appear to perform well with respect to metrics like the empirical coverage error, while simultaneously being useless in practice. The original ACI algorithm illustrates this phenomenon: too small a value of its learning rate $\gamma$ yields prediction intervals that are not reactive enough, while too large a value yields intervals that change too fast. In both cases, the empirical coverage may appear well-calibrated, while the prediction intervals will not be useful. Thus, the core challenge in designing an ACI algorithm is in finding an optimal level of reactivity for the prediction intervals. As users of these algorithms, the challenge is in finding values for the tuning parameters that avoid pathological behaviors.</span>
 <span id="cb18-1077"><a href="#cb18-1077" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-1078"><a href="#cb18-1078" aria-hidden="true" tabindex="-1"></a>Several of the algorithms investigated in this paper handle the problem of finding an optimal level of reactivity by aggregating prediction intervals generated by a set of underlying ACI algorithms. </span>
+<span id="cb18-1078"><a href="#cb18-1078" aria-hidden="true" tabindex="-1"></a>Several of the algorithms investigated in this paper handle the problem of finding an optimal level of reactivity by aggregating prediction intervals generated by a set of underlying ACI algorithms.</span>
 <span id="cb18-1079"><a href="#cb18-1079" aria-hidden="true" tabindex="-1"></a>Our results show the algorithms can perform well in multiple difficult scenarios. However, the overall effect of these approaches is to shift the problem to a higher level of abstraction: we still need to set tuning parameters that control the amount of reactivity, but do so at a higher level than the original ACI algorithm. It is desirable that these tuning parameters be easily interpretable, with simple strategies available for setting them.  An advantage of the SF-OGD and SAOCP algorithms in this respect are that their main tuning parameter, the maximum radius $D$, is easily interpretable as the maximum possible difference between the input predictions and the truth. It is also straightforward to choose this parameter based on a calibration set, although this strategy does not necessarily work well in cases of distribution shift. We also found that an advantage of the AgACI method is its robustness to the choice of its main tuning parameter, the set of candidate learning rates, in the sense that the grid of candidate learning rates can always be expanded as illustrated in @sec-agaci-tuning.</span>
 <span id="cb18-1080"><a href="#cb18-1080" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-1081"><a href="#cb18-1081" aria-hidden="true" tabindex="-1"></a>A key challenge in tuning the algorithms arises in settings of distribution shift, where methods for choosing hyperparameters based on a calibration set from before the distribution shift will likely not perform well. The second simulation study we conducted probed this setting in a simple scenario. We found that several of the methods yielded prediction intervals that had non-optimal empirical coverage. As we picked hyperparameters based on a calibration set formed before the distribution shift, it is not surprising that the resulting tuning parameters are not optimal. This underscores the difficulty in designing  ACI algorithms that can adapt to distribution shifts, and in finding robust methods for choosing hyperparameters. In practice, it is possible the second simulation study does not accurately reflect real-world scenarios. Indeed, the benchmarks presented in @bhatnagar2023saocp using the datasets from the M4 competition <span class="co">[</span><span class="ot">@makridakis2020m4</span><span class="co">]</span>, and using point predictions generated by diverse prediction algorithms, found that ACI algorithms exhibited good performance in terms of empirical coverage.  Nevertheless, our recommendation for future papers in this line of research is to include simulation studies for simple distributional shift scenarios as a benchmark. </span>
+<span id="cb18-1081"><a href="#cb18-1081" aria-hidden="true" tabindex="-1"></a>A key challenge in tuning the algorithms arises in settings of distribution shift, where methods for choosing hyperparameters based on a calibration set from before the distribution shift will likely not perform well. The second simulation study we conducted probed this setting in a simple scenario. We found that several of the methods yielded prediction intervals that had non-optimal empirical coverage. As we picked hyperparameters based on a calibration set formed before the distribution shift, it is not surprising that the resulting tuning parameters are not optimal. This underscores the difficulty in designing  ACI algorithms that can adapt to distribution shifts, and in finding robust methods for choosing hyperparameters. In practice, it is possible the second simulation study does not accurately reflect real-world scenarios. Indeed, the benchmarks presented in @bhatnagar2023saocp using the datasets from the M4 competition <span class="co">[</span><span class="ot">@makridakis2020m4</span><span class="co">]</span>, and using point predictions generated by diverse prediction algorithms, found that ACI algorithms exhibited good performance in terms of empirical coverage.  Nevertheless, our recommendation for future papers in this line of research is to include simulation studies for simple distributional shift scenarios as a benchmark.</span>
 <span id="cb18-1082"><a href="#cb18-1082" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-1083"><a href="#cb18-1083" aria-hidden="true" tabindex="-1"></a>Our case study results illustrate the dependence of the ACI algorithms on having access to high-quality point predictions. If the predictions are biased, for example, then the prediction intervals may be able to achieve optimal coverage at the expense of larger interval widths. This type of underperformance due to biased input predictions can be seen in the 2011-2012 flu season in the case study <span class="co">[</span><span class="ot">@fig-case-study-example</span><span class="co">]</span>. One way bias can arise in the underlying predictions is due to model misspecification: for example, if a forecast method assumes a time series will evolve according to a particular parametric model that does not accurately capture the true data generating process, then the forecasts may be systematically biased. Using ensemble methods to combine forecasts from several flexible machine learning algorithms is one strategy that can be used to hedge against such model misspecification and improve the quality of forecasts <span class="co">[</span><span class="ot">@makridakis2020m4</span><span class="co">]</span>.</span>
 <span id="cb18-1084"><a href="#cb18-1084" aria-hidden="true" tabindex="-1"></a></span>
@@ -3080,7 +3080,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb18-1107"><a href="#cb18-1107" aria-hidden="true" tabindex="-1"></a><span class="in">```{r simulation_one_plot_joint_appendix}</span></span>
 <span id="cb18-1108"><a href="#cb18-1108" aria-hidden="true" tabindex="-1"></a><span class="in">#| label: fig-simulation-one-joint</span></span>
 <span id="cb18-1109"><a href="#cb18-1109" aria-hidden="true" tabindex="-1"></a><span class="in">#| fig-cap: "Mean Interval Width vs Coverage Error for the first simulation study. The error bars represent the 10% to 90% quantiles of the metrics over the simulation datasets."</span></span>
-<span id="cb18-1110"><a href="#cb18-1110" aria-hidden="true" tabindex="-1"></a><span class="in">#| fig-height: 4 </span></span>
+<span id="cb18-1110"><a href="#cb18-1110" aria-hidden="true" tabindex="-1"></a><span class="in">#| fig-height: 4</span></span>
 <span id="cb18-1111"><a href="#cb18-1111" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-1112"><a href="#cb18-1112" aria-hidden="true" tabindex="-1"></a><span class="in">simulation_one_joint_plot(simulation_study1$results)</span></span>
 <span id="cb18-1113"><a href="#cb18-1113" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
