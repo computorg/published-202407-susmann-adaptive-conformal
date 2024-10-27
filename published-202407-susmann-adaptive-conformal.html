@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.25">
+<meta name="generator" content="quarto-1.6.30">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -89,12 +89,12 @@ div.csl-indent {
 <script src="published-202407-susmann-adaptive-conformal_files/libs/quarto-html/tippy.umd.min.js"></script>
 <script src="published-202407-susmann-adaptive-conformal_files/libs/quarto-html/anchor.min.js"></script>
 <link href="published-202407-susmann-adaptive-conformal_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="published-202407-susmann-adaptive-conformal_files/libs/quarto-html/quarto-syntax-highlighting-6f7931aacaeb22aa467d6667c6f1725d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="published-202407-susmann-adaptive-conformal_files/libs/quarto-html/quarto-syntax-highlighting-b87080cf00c805eeaf98df19bc5235fa.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="published-202407-susmann-adaptive-conformal_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="published-202407-susmann-adaptive-conformal_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="published-202407-susmann-adaptive-conformal_files/libs/bootstrap/bootstrap-bd987972e5885778c45a80ac90485a07.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
-<script src="published-202407-susmann-adaptive-conformal_files/libs/quarto-contrib/pseudocode-2.4/pseudocode.min.js"></script>
-<link href="published-202407-susmann-adaptive-conformal_files/libs/quarto-contrib/pseudocode-2.4/pseudocode.min.css" rel="stylesheet">
+<link href="published-202407-susmann-adaptive-conformal_files/libs/bootstrap/bootstrap-6b9f26d6dc2bf9192edf8c336a422e78.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="published-202407-susmann-adaptive-conformal_files/libs/quarto-contrib/pseudocode-2.4.1/pseudocode.min.js"></script>
+<link href="published-202407-susmann-adaptive-conformal_files/libs/quarto-contrib/pseudocode-2.4.1/pseudocode.min.css" rel="stylesheet">
 <style>
 
       .quarto-title-block .quarto-title-banner h1,
@@ -283,7 +283,7 @@ ISSN 2824-7795</p>
       <div>
       <div class="quarto-title-meta-heading">Modified</div>
       <div class="quarto-title-meta-contents">
-        <p class="date-modified">October 13, 2024</p>
+        <p class="date-modified">October 27, 2024</p>
       </div>
     </div>
       
@@ -567,12 +567,12 @@ y_t &amp;\sim N(0, \sigma_t^2), \quad t \in \llbracket T \rrbracket, \\
 </span> For demonstration purposes we assume we have access to unbiased predictions <span class="math inline">\hat{\mu}_t = 0</span> for all <span class="math inline">t \in \llbracket T \rrbracket</span>. Throughout we set the target empirical coverage to <span class="math inline">\alpha = 0.8</span>.</p>
 <section id="adaptive-conformal-inference-aci" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="adaptive-conformal-inference-aci"><span class="header-section-number">3.1</span> Adaptive Conformal Inference (ACI)</h2>
-<div id="algo-aci" class="pseudocode-container" data-no-end="false" data-alg-title="Algorithm" data-line-number="true" data-line-number-punc=":" data-indent-size="1.2em" data-pseudocode-index="1" data-comment-delimiter="//">
+<div id="algo-aci" class="pseudocode-container quarto-float" data-line-number="true" data-pseudocode-number="1" data-indent-size="1.2em" data-comment-delimiter="//" data-line-number-punc=":" data-caption-prefix="Algorithm" data-no-end="false">
 <div class="pseudocode">
 \begin{algorithm} \caption{Adaptive Conformal Inference} \begin{algorithmic} \State \textbf{Input:} starting value $\theta_1$, learning rate $\gamma &gt; 0$. \For{$t = 1, 2, \dots, T$} \State \textbf{Output:} prediction interval $\widehat{C}_t(\theta_t)$. \State Observe $y_t$. \State Evaluate $\mathrm{err}_t = \mathbb{I}[y_t \not\in \widehat{C}_t(\theta_t)]$. \State Update $\theta_{t+1} = \theta_t + \gamma (\mathrm{err}_t - (1 - \alpha))$. \EndFor \end{algorithmic} \end{algorithm}
 </div>
 </div>
-<p>The original ACI algorithm (<span class="citation" data-cites="gibbs2021adaptive">Gibbs and Candes (<a href="#ref-gibbs2021adaptive" role="doc-biblioref">2021</a>)</span>; <a href="#algo-aci">Algorithm 1</a>) adaptively adjusts the width of the prediction intervals in response to the observations. The updating rule for the estimated radius can be derived as an online subgradient descent scheme. The subgradient of the pinball loss function with respect to <span class="math inline">\theta</span> is given by <span class="math display">
+<p>The original ACI algorithm (<span class="citation" data-cites="gibbs2021adaptive">Gibbs and Candes (<a href="#ref-gibbs2021adaptive" role="doc-biblioref">2021</a>)</span>; <a href="#algo-aci" class="quarto-xref">Algorithm 1</a>) adaptively adjusts the width of the prediction intervals in response to the observations. The updating rule for the estimated radius can be derived as an online subgradient descent scheme. The subgradient of the pinball loss function with respect to <span class="math inline">\theta</span> is given by <span class="math display">
 \begin{aligned}
   \nabla L^\alpha(\theta, r) &amp;= \begin{cases}
     \{ -\alpha \}, &amp;\theta &lt; r, \\
@@ -619,12 +619,12 @@ Figure&nbsp;1: Example 80% prediction intervals from the ACI algorithm for diffe
 </section>
 <section id="aggregated-adaptive-conformal-inference-agaci" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="aggregated-adaptive-conformal-inference-agaci"><span class="header-section-number">3.2</span> Aggregated Adaptive Conformal Inference (AgACI)</h2>
-<div id="algo-agaci" class="pseudocode-container" data-no-end="false" data-alg-title="Algorithm" data-line-number="true" data-line-number-punc=":" data-indent-size="1.2em" data-pseudocode-index="2" data-comment-delimiter="//">
+<div id="algo-agaci" class="pseudocode-container quarto-float" data-line-number="true" data-pseudocode-number="2" data-indent-size="1.2em" data-comment-delimiter="//" data-line-number-punc=":" data-caption-prefix="Algorithm" data-no-end="false">
 <div class="pseudocode">
 \begin{algorithm} \caption{Aggregated Adaptive Conformal Inference} \begin{algorithmic} \State \textbf{Input:} candidate learning rates $(\gamma_k)_{1 \leq k \leq K }$, starting value $\theta_1$. \State Initialize lower and upper BOA algorithms $\mathcal{B}^\ell := \texttt{BOA}(\alpha \leftarrow (1 - \alpha) / 2)$ and $\mathcal{B}^u := \texttt{BOA}(\alpha \leftarrow (1 - (1 - \alpha)/2))$. \For{$k = 1, \dots, K$} \State Initialize ACI $\mathcal{A}_k = \texttt{ACI}(\alpha \leftarrow \alpha, \gamma \leftarrow \gamma_k, \theta_1 \leftarrow \theta_1)$. \EndFor \For{$t = 1, 2, \dots, T$} \For{$k = 1, \dots, K$} \State Retrieve candidate prediction interval $[\ell^k_{t}, u^k_{t}]$ from $\mathcal{A}_k$. \EndFor \State Compute aggregated lower bound $\tilde{\ell}_t := \mathcal{B}^\ell((\ell^k_t : k \in \{ 1, \dots, K \}))$. \State Compute aggregated upper bound $\tilde{u}_t := \mathcal{B}^u((u^k_t : k \in \{ 1, \dots, K \}))$. \State \textbf{Output:} prediction interval $[\tilde{\ell}_t, \tilde{u}_t]$. \State Observe $y_t$. \For{$k = 1, \dots, K$} \State Update $\mathcal{A}_k$ with observation $y_t$. \EndFor \State Update $\mathcal{B}^\ell$ with observed outcome $y_t$. \State Update $\mathcal{B}^u$ with observed outcome $y_t$. \EndFor \end{algorithmic} \end{algorithm}
 </div>
 </div>
-<p>The Aggregated ACI (AgACI; <a href="#algo-agaci">Algorithm 2</a>) algorithm solves the problem of choosing a learning rate for ACI by running multiple copies of the algorithm with different learning rates, and then separately combining the lower and upper interval bounds using an online aggregation of experts algorithm <span class="citation" data-cites="zaffran2022agaci">(<a href="#ref-zaffran2022agaci" role="doc-biblioref">Zaffran et al. 2022</a>)</span>. That is, one aggregation algorithm seeks to estimate the lower <span class="math inline">(1-\alpha)/2</span> quantile, and the other seeks to estimate the upper <span class="math inline">1 - (1 - \alpha) / 2</span> quantile. <span class="citation" data-cites="zaffran2022agaci">Zaffran et al. (<a href="#ref-zaffran2022agaci" role="doc-biblioref">2022</a>)</span> experimented with multiple online aggregation algorithms, and found that they yielded similar results. Thus, we follow their lead in using the Bernstein Online Aggregation (BOA) algorithm as implemented in the <code>opera</code> <code>R</code> package <span class="citation" data-cites="wintenberger2017boa opera2023">(<a href="#ref-wintenberger2017boa" role="doc-biblioref">Wintenberger 2017</a>; <a href="#ref-opera2023" role="doc-biblioref">Gaillard et al. 2023</a>)</span>. BOA is an online algorithm that forms predictions for the lower (or upper) prediction interval bound as a weighted mean of the candidate ACI prediction interval lower (upper) bound, where the weights are determined by each candidate’s past performance with respect to the quantile loss. As a consequence, the prediction intervals generated by AgACI are not necessarily symmetric around the point prediction, as the weights for the lower and upper bounds are separate.</p>
+<p>The Aggregated ACI (AgACI; <a href="#algo-agaci" class="quarto-xref">Algorithm 2</a>) algorithm solves the problem of choosing a learning rate for ACI by running multiple copies of the algorithm with different learning rates, and then separately combining the lower and upper interval bounds using an online aggregation of experts algorithm <span class="citation" data-cites="zaffran2022agaci">(<a href="#ref-zaffran2022agaci" role="doc-biblioref">Zaffran et al. 2022</a>)</span>. That is, one aggregation algorithm seeks to estimate the lower <span class="math inline">(1-\alpha)/2</span> quantile, and the other seeks to estimate the upper <span class="math inline">1 - (1 - \alpha) / 2</span> quantile. <span class="citation" data-cites="zaffran2022agaci">Zaffran et al. (<a href="#ref-zaffran2022agaci" role="doc-biblioref">2022</a>)</span> experimented with multiple online aggregation algorithms, and found that they yielded similar results. Thus, we follow their lead in using the Bernstein Online Aggregation (BOA) algorithm as implemented in the <code>opera</code> <code>R</code> package <span class="citation" data-cites="wintenberger2017boa opera2023">(<a href="#ref-wintenberger2017boa" role="doc-biblioref">Wintenberger 2017</a>; <a href="#ref-opera2023" role="doc-biblioref">Gaillard et al. 2023</a>)</span>. BOA is an online algorithm that forms predictions for the lower (or upper) prediction interval bound as a weighted mean of the candidate ACI prediction interval lower (upper) bound, where the weights are determined by each candidate’s past performance with respect to the quantile loss. As a consequence, the prediction intervals generated by AgACI are not necessarily symmetric around the point prediction, as the weights for the lower and upper bounds are separate.</p>
 <section id="theoretical-gaurantees" class="level3" data-number="3.2.1">
 <h3 data-number="3.2.1" class="anchored" data-anchor-id="theoretical-gaurantees"><span class="header-section-number">3.2.1</span> Theoretical Gaurantees</h3>
 <p>AgACI departs from our main theoretical framework in that it does not yield a sequence <span class="math inline">(\theta_t)_{t \in \llbracket T \rrbracket}</span> whose elements yield prediction intervals via a set construction function <span class="math inline">\widehat{C}_t</span>. Rather, the upper and lower interval bounds from a set of candidate ACI algorithms are aggregated separately. Thus, theoretical results such as regret bounds similar to those for the other algorithms are not available. It would be possible, however, to establish regret bounds for the pinball loss applied separately to the lower and upper bounds of the prediction intervals. It is unclear, however, how to convert such regret bounds into a coverage bound.</p>
@@ -650,12 +650,12 @@ Figure&nbsp;2: Example 80% prediction intervals from the AgACI algorithm with st
 </section>
 <section id="dynamically-tuned-adaptive-conformal-inference-dtaci" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="dynamically-tuned-adaptive-conformal-inference-dtaci"><span class="header-section-number">3.3</span> Dynamically-tuned Adaptive Conformal Inference (DtACI)</h2>
-<div id="algo-faci" class="pseudocode-container" data-no-end="false" data-alg-title="Algorithm" data-line-number="true" data-line-number-punc=":" data-indent-size="1.2em" data-pseudocode-index="3" data-comment-delimiter="//">
+<div id="algo-faci" class="pseudocode-container quarto-float" data-line-number="true" data-pseudocode-number="3" data-indent-size="1.2em" data-comment-delimiter="//" data-line-number-punc=":" data-caption-prefix="Algorithm" data-no-end="false">
 <div class="pseudocode">
 \begin{algorithm} \caption{Dynamically-tuned Adaptive Conformal Inference} \begin{algorithmic} \State \textbf{Input:} starting value $\theta_1$, candidate learning rates $(\gamma_k)_{1 \leq k \leq K }$, parameters $\sigma, \eta$. \For{$k = 1, \dots, K$} \State Initialize expert $\mathcal{A}_k = \texttt{ACI}(\alpha \leftarrow \alpha, \gamma \leftarrow \gamma_k, \theta_1 \leftarrow \theta_1)$. \EndFor \For{$t = 1, 2, \dots, T$} \State Define $p_t^k := p_t^k / \sum_{i=1}^K p_t^i$, for all $1 \leq k \leq K$. \State Set $\theta_t = \sum_{k=1}^K \theta_t^k p_t^k$. \State \textbf{Output:} prediction interval $\widehat{C}_t(\theta_t)$. \State Observe $y_t$ and compute $r_t$. \State $\bar{w}_{t}^k \gets p_t^k \exp(-\eta L^\alpha(\theta_t^k, r_t))$, for all $1 \leq k \leq K$. \State $\bar{W}_t \gets \sum_{i=1}^K \bar{w}_t^i$. \State $p_{t+1}^k \gets (1 - \sigma) \bar{w}_t^k + \bar{W}_t \sigma / K$. \State Set $\mathrm{err}_t := \mathbb{I}[y_t \not\in \widehat{C}_t(\theta_t)]$. \For{$k = 1, \dots, K$} \State Update ACI $\mathcal{A}_k$ with $y_t$ and obtain $\theta_{t+1}^k$. \EndFor \EndFor \end{algorithmic} \end{algorithm}
 </div>
 </div>
-<p>The Dynamically-tuned Adaptive Conformal Inference (DtACI; <a href="#algo-faci">Algorithm 3</a>) algorithm was developed by the authors of the original ACI algorithm in part to address the issue of how to choose the learning rate parameter <span class="math inline">\gamma</span>. In this respect the goal of the algorithm is similar to that of AgACI, although it is achieved slightly differently. DtACI also aggregates predictions from multiple copies of ACI run with different learning rates, but differs in that it directly aggregates the estimated radii emitted from each algorithm based on their pinball loss <span class="citation" data-cites="gibbs2022faci">(<a href="#ref-gibbs2022faci" role="doc-biblioref">Gibbs and Candès 2022</a>)</span> using an exponential reweighting scheme <span class="citation" data-cites="gradu2022adaptive">(<a href="#ref-gradu2022adaptive" role="doc-biblioref">Gradu, Hazan, and Minasyan 2023</a>)</span>. As opposed to AgACI, this construction allows for more straightforward development of theoretical guarantees on the algorithm’s performance, because the upper and lower bounds of the intervals are not aggregated separately.</p>
+<p>The Dynamically-tuned Adaptive Conformal Inference (DtACI; <a href="#algo-faci" class="quarto-xref">Algorithm 3</a>) algorithm was developed by the authors of the original ACI algorithm in part to address the issue of how to choose the learning rate parameter <span class="math inline">\gamma</span>. In this respect the goal of the algorithm is similar to that of AgACI, although it is achieved slightly differently. DtACI also aggregates predictions from multiple copies of ACI run with different learning rates, but differs in that it directly aggregates the estimated radii emitted from each algorithm based on their pinball loss <span class="citation" data-cites="gibbs2022faci">(<a href="#ref-gibbs2022faci" role="doc-biblioref">Gibbs and Candès 2022</a>)</span> using an exponential reweighting scheme <span class="citation" data-cites="gradu2022adaptive">(<a href="#ref-gradu2022adaptive" role="doc-biblioref">Gradu, Hazan, and Minasyan 2023</a>)</span>. As opposed to AgACI, this construction allows for more straightforward development of theoretical guarantees on the algorithm’s performance, because the upper and lower bounds of the intervals are not aggregated separately.</p>
 <section id="theoretical-guarantees-1" class="level3" data-number="3.3.1">
 <h3 data-number="3.3.1" class="anchored" data-anchor-id="theoretical-guarantees-1"><span class="header-section-number">3.3.1</span> Theoretical Guarantees</h3>
 <p>DtACI was originally proposed with the choice of the quantile interval constructor. DtACI has the following strongly-adaptive regret bound <span class="citation" data-cites="bhatnagar2023saocp">(<a href="#ref-bhatnagar2023saocp" role="doc-biblioref">Bhatnagar et al. 2023</a>)</span>: for all <span class="math inline">\eta &gt; 0</span> and subperiod lengths <span class="math inline">m</span>, <span class="math display">
@@ -703,12 +703,12 @@ Figure&nbsp;3: Example 80% prediction intervals generated by the DtACI algorithm
 </section>
 <section id="scale-free-online-gradient-descent-sf-ogd" class="level2" data-number="3.4">
 <h2 data-number="3.4" class="anchored" data-anchor-id="scale-free-online-gradient-descent-sf-ogd"><span class="header-section-number">3.4</span> Scale-Free Online Gradient Descent (SF-OGD)</h2>
-<div id="algo-sfogd" class="pseudocode-container" data-no-end="false" data-alg-title="Algorithm" data-line-number="true" data-line-number-punc=":" data-indent-size="1.2em" data-pseudocode-index="4" data-comment-delimiter="//">
+<div id="algo-sfogd" class="pseudocode-container quarto-float" data-line-number="true" data-pseudocode-number="4" data-indent-size="1.2em" data-comment-delimiter="//" data-line-number-punc=":" data-caption-prefix="Algorithm" data-no-end="false">
 <div class="pseudocode">
 \begin{algorithm} \caption{Scale-Free Online Gradient Descent} \begin{algorithmic} \State \textbf{Input:} starting value $\theta_1$, learning rate $\gamma &gt; 0$. \For{$t = 1, 2, \dots, T$} \State \textbf{Output:} prediction interval $\widehat{C}_t(\theta_t)$. \State Observe $y_t$ and compute $r_t$. \State Update $\theta_{t+1} = \theta_t - \gamma \frac{\nabla L^\alpha(\theta_t, r_t)}{\sqrt{\sum_{i=1}^t} \| \nabla L^\alpha(\theta_i, r_i) \|_2^2}$. \EndFor \end{algorithmic} \end{algorithm}
 </div>
 </div>
-<p>Scale-Free Online Gradient Descent (SF-OGD; <a href="#algo-sfogd">Algorithm 4</a>) is a general algorithm for online learning proposed by <span class="citation" data-cites="orabona2018sfogd">Orabona and Pál (<a href="#ref-orabona2018sfogd" role="doc-biblioref">2018</a>)</span>. The algorithm updates <span class="math inline">\theta_t</span> with a gradient descent step where the learning rate adapts to the scale of the previously observed gradients. SF-OGD was first used in the context of ACI as a sub-algorithm for SAOCP (described in the next section). However, it was found to have good performance by itself <span class="citation" data-cites="bhatnagar2023saocp">(<a href="#ref-bhatnagar2023saocp" role="doc-biblioref">Bhatnagar et al. 2023</a>)</span> in real-world tasks, so we have made it available in the package as a stand-alone algorithm.</p>
+<p>Scale-Free Online Gradient Descent (SF-OGD; <a href="#algo-sfogd" class="quarto-xref">Algorithm 4</a>) is a general algorithm for online learning proposed by <span class="citation" data-cites="orabona2018sfogd">Orabona and Pál (<a href="#ref-orabona2018sfogd" role="doc-biblioref">2018</a>)</span>. The algorithm updates <span class="math inline">\theta_t</span> with a gradient descent step where the learning rate adapts to the scale of the previously observed gradients. SF-OGD was first used in the context of ACI as a sub-algorithm for SAOCP (described in the next section). However, it was found to have good performance by itself <span class="citation" data-cites="bhatnagar2023saocp">(<a href="#ref-bhatnagar2023saocp" role="doc-biblioref">Bhatnagar et al. 2023</a>)</span> in real-world tasks, so we have made it available in the package as a stand-alone algorithm.</p>
 <section id="theoretical-guarantees-2" class="level3" data-number="3.4.1">
 <h3 data-number="3.4.1" class="anchored" data-anchor-id="theoretical-guarantees-2"><span class="header-section-number">3.4.1</span> Theoretical Guarantees</h3>
 <p>The SF-OGD algorithm with linear interval constructor has the following regret bound, which is called an <em>anytime regret bound</em> because it holds for all <span class="math inline">t \in \llbracket T \rrbracket</span> <span class="citation" data-cites="bhatnagar2023saocp">(<a href="#ref-bhatnagar2023saocp" role="doc-biblioref">Bhatnagar et al. 2023</a>)</span>. For any <span class="math inline">\gamma &gt; 0</span>, <span class="math display">
@@ -742,12 +742,12 @@ Figure&nbsp;4: Example 80% prediction intervals generated by the SF-OGD algorith
 </section>
 <section id="strongly-adaptive-online-conformal-prediction-saocp" class="level2" data-number="3.5">
 <h2 data-number="3.5" class="anchored" data-anchor-id="strongly-adaptive-online-conformal-prediction-saocp"><span class="header-section-number">3.5</span> Strongly Adaptive Online Conformal Prediction (SAOCP)</h2>
-<div id="algo-saocp" class="pseudocode-container" data-no-end="false" data-alg-title="Algorithm" data-line-number="true" data-line-number-punc=":" data-indent-size="1.2em" data-pseudocode-index="5" data-comment-delimiter="//">
+<div id="algo-saocp" class="pseudocode-container quarto-float" data-line-number="true" data-pseudocode-number="5" data-indent-size="1.2em" data-comment-delimiter="//" data-line-number-punc=":" data-caption-prefix="Algorithm" data-no-end="false">
 <div class="pseudocode">
 \begin{algorithm} \caption{Strongly Adaptive Online Conformal Prediction} \begin{algorithmic} \State \textbf{Input:} initial value $\theta_0$, learning rate $\gamma &gt; 0$. \For{$t = 1, 2, \dots, T$} \State Initialize expert $\mathcal{A}_t = \texttt{SF-OGD}(\alpha \leftarrow \alpha, \gamma \leftarrow \gamma, \theta_1 \leftarrow \theta_{t-1})$, set weight $p_t^t = 0$. \State Compute active set $\mathrm{Active}(t) = \{ i \in \llbracket T \rrbracket : t - L(i) &lt; i \leq t \}$ (see below for definition of $L(t)$). \State Compute prior probability $\pi_i \propto i^{-2} (1 + \lfloor \log_2 i \rfloor )^{-1} \mathbb{I}[i \in \mathrm{Active}(t)]$. \State Compute un-normalized probability $\hat{p}_i = \pi_i [p_{t,i}]_+$ for all $i \in \llbracket t \rrbracket$. \State Normalize $p = \hat{p} / \| \hat{p} \|_1 \in \Delta^t$ if $\| \hat{p} \|_1 &gt; 0$, else $p = \pi$. \State Set $\theta_t = \sum_{i \in \mathrm{Active}(t)} p_i \theta_t^i$ (for $t \geq 2$), and $\theta_t = 0$ for $t = 1$. \State \textbf{Output:} prediction set $\widehat{C}_t(\theta_t)$. \State Observe $y_t$ and compute $r_t$. \For{$i \in \mathrm{Active}(t)$} \State Update expert $\mathcal{A}_t$ with $y_t$ and obtain $\theta_{t+1}^i$. \State Compute $g_t^i = \begin{cases} \frac{1}{D}\left(L^\alpha(\theta_t, r_t) - L^\alpha(\theta_t^i, r_t)\right) &amp; p_t^i &gt; 0 \\ \frac{1}{D}\left[L^\alpha(\theta_t, r_t) - L^\alpha(\theta_t^i, r_t))\right]_+ &amp; p_t^i \leq 0 \\ \end{cases}$. \State Update expert weight $p_{t+1}^i = \frac{1}{t - i + 1}\left( \sum_{j=i}^t g_j^i \right) \left(1 + \sum_{j=i}^t p_j^i g_j^i \right)$. \EndFor \EndFor \end{algorithmic} \end{algorithm}
 </div>
 </div>
-<p>The Strongly Adaptive Online Conformal Prediction (SAOCP; <a href="#algo-saocp">Algorithm 5</a>) algorithm was proposed as an improvement over the extant ACI algorithms in that it features stronger theoretical guarantees. SAOCP works similarly to AgACI and DtACI in that it maintains a library of candidate online learning algorithms that generate prediction intervals which are then aggregated using a meta-algorithm <span class="citation" data-cites="bhatnagar2023saocp">(<a href="#ref-bhatnagar2023saocp" role="doc-biblioref">Bhatnagar et al. 2023</a>)</span>. The candidate algorithm was chosen to be SF-OGD, although any algorithm that features anytime regret guarantees can be chosen. As opposed to AgACI and DtACI, in which each candidate has a different learning rate but is always able to contribute to the final prediction intervals, here each candidate has the same learning rate but only has positive weight over a specific interval of time. New candidate algorithms are continually being spawned in order that, if the distribution shifts rapidly, the newer candidates will be able to react quickly and receive positive weight. Specifically, at each time point, a new expert is instantiated which is active over a finite ``lifetime”. Define the <em>lifetime</em> of an expert instantiated at time <span class="math inline">t</span> as <span class="math display">
+<p>The Strongly Adaptive Online Conformal Prediction (SAOCP; <a href="#algo-saocp" class="quarto-xref">Algorithm 5</a>) algorithm was proposed as an improvement over the extant ACI algorithms in that it features stronger theoretical guarantees. SAOCP works similarly to AgACI and DtACI in that it maintains a library of candidate online learning algorithms that generate prediction intervals which are then aggregated using a meta-algorithm <span class="citation" data-cites="bhatnagar2023saocp">(<a href="#ref-bhatnagar2023saocp" role="doc-biblioref">Bhatnagar et al. 2023</a>)</span>. The candidate algorithm was chosen to be SF-OGD, although any algorithm that features anytime regret guarantees can be chosen. As opposed to AgACI and DtACI, in which each candidate has a different learning rate but is always able to contribute to the final prediction intervals, here each candidate has the same learning rate but only has positive weight over a specific interval of time. New candidate algorithms are continually being spawned in order that, if the distribution shifts rapidly, the newer candidates will be able to react quickly and receive positive weight. Specifically, at each time point, a new expert is instantiated which is active over a finite ``lifetime”. Define the <em>lifetime</em> of an expert instantiated at time <span class="math inline">t</span> as <span class="math display">
 \begin{aligned}
   L(t) := g \cdot \max_{n \in \mathbb{Z}} \{ 2^n t \equiv 0 \mod 2^n \},
 \end{aligned}
@@ -3094,121 +3094,38 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
-<script>
-(function(d) {
-  d.querySelectorAll(".pseudocode-container").forEach(function(el) {
-    let pseudocodeOptions = {
-      indentSize: el.dataset.indentSize || "1.2em",
-      commentDelimiter: el.dataset.commentDelimiter || "//",
-      lineNumber: el.dataset.lineNumber === "true" ? true : false,
-      lineNumberPunc: el.dataset.lineNumberPunc || ":",
-      noEnd: el.dataset.noEnd === "true" ? true : false,
-      titlePrefix: el.dataset.algTitle || "Algorithm"
-    };
-    pseudocode.renderElement(el.querySelector(".pseudocode"), pseudocodeOptions);
-  });
-})(document);
-(function(d) {
-  d.querySelectorAll(".pseudocode-container").forEach(function(el) {
-    titleSpan = el.querySelector(".ps-root > .ps-algorithm > .ps-line > .ps-keyword")
-    titlePrefix = el.dataset.algTitle;
-    titleIndex = el.dataset.chapterLevel ? el.dataset.chapterLevel + "." + el.dataset.pseudocodeIndex : el.dataset.pseudocodeIndex;
-    titleSpan.innerHTML = titlePrefix + " " + titleIndex + " ";
-  });
-})(document);
-</script>
-<script>
-(function(d) {
-  d.querySelectorAll(".pseudocode-container").forEach(function(el) {
-    let pseudocodeOptions = {
-      indentSize: el.dataset.indentSize || "1.2em",
-      commentDelimiter: el.dataset.commentDelimiter || "//",
-      lineNumber: el.dataset.lineNumber === "true" ? true : false,
-      lineNumberPunc: el.dataset.lineNumberPunc || ":",
-      noEnd: el.dataset.noEnd === "true" ? true : false,
-      titlePrefix: el.dataset.algTitle || "Algorithm"
-    };
-    pseudocode.renderElement(el.querySelector(".pseudocode"), pseudocodeOptions);
-  });
-})(document);
-(function(d) {
-  d.querySelectorAll(".pseudocode-container").forEach(function(el) {
-    titleSpan = el.querySelector(".ps-root > .ps-algorithm > .ps-line > .ps-keyword")
-    titlePrefix = el.dataset.algTitle;
-    titleIndex = el.dataset.chapterLevel ? el.dataset.chapterLevel + "." + el.dataset.pseudocodeIndex : el.dataset.pseudocodeIndex;
-    titleSpan.innerHTML = titlePrefix + " " + titleIndex + " ";
-  });
-})(document);
-</script>
-<script>
-(function(d) {
-  d.querySelectorAll(".pseudocode-container").forEach(function(el) {
-    let pseudocodeOptions = {
-      indentSize: el.dataset.indentSize || "1.2em",
-      commentDelimiter: el.dataset.commentDelimiter || "//",
-      lineNumber: el.dataset.lineNumber === "true" ? true : false,
-      lineNumberPunc: el.dataset.lineNumberPunc || ":",
-      noEnd: el.dataset.noEnd === "true" ? true : false,
-      titlePrefix: el.dataset.algTitle || "Algorithm"
-    };
-    pseudocode.renderElement(el.querySelector(".pseudocode"), pseudocodeOptions);
-  });
-})(document);
-(function(d) {
-  d.querySelectorAll(".pseudocode-container").forEach(function(el) {
-    titleSpan = el.querySelector(".ps-root > .ps-algorithm > .ps-line > .ps-keyword")
-    titlePrefix = el.dataset.algTitle;
-    titleIndex = el.dataset.chapterLevel ? el.dataset.chapterLevel + "." + el.dataset.pseudocodeIndex : el.dataset.pseudocodeIndex;
-    titleSpan.innerHTML = titlePrefix + " " + titleIndex + " ";
-  });
-})(document);
-</script>
-<script>
-(function(d) {
-  d.querySelectorAll(".pseudocode-container").forEach(function(el) {
-    let pseudocodeOptions = {
-      indentSize: el.dataset.indentSize || "1.2em",
-      commentDelimiter: el.dataset.commentDelimiter || "//",
-      lineNumber: el.dataset.lineNumber === "true" ? true : false,
-      lineNumberPunc: el.dataset.lineNumberPunc || ":",
-      noEnd: el.dataset.noEnd === "true" ? true : false,
-      titlePrefix: el.dataset.algTitle || "Algorithm"
-    };
-    pseudocode.renderElement(el.querySelector(".pseudocode"), pseudocodeOptions);
-  });
-})(document);
-(function(d) {
-  d.querySelectorAll(".pseudocode-container").forEach(function(el) {
-    titleSpan = el.querySelector(".ps-root > .ps-algorithm > .ps-line > .ps-keyword")
-    titlePrefix = el.dataset.algTitle;
-    titleIndex = el.dataset.chapterLevel ? el.dataset.chapterLevel + "." + el.dataset.pseudocodeIndex : el.dataset.pseudocodeIndex;
-    titleSpan.innerHTML = titlePrefix + " " + titleIndex + " ";
-  });
-})(document);
-</script>
-<script>
-(function(d) {
-  d.querySelectorAll(".pseudocode-container").forEach(function(el) {
-    let pseudocodeOptions = {
-      indentSize: el.dataset.indentSize || "1.2em",
-      commentDelimiter: el.dataset.commentDelimiter || "//",
-      lineNumber: el.dataset.lineNumber === "true" ? true : false,
-      lineNumberPunc: el.dataset.lineNumberPunc || ":",
-      noEnd: el.dataset.noEnd === "true" ? true : false,
-      titlePrefix: el.dataset.algTitle || "Algorithm"
-    };
-    pseudocode.renderElement(el.querySelector(".pseudocode"), pseudocodeOptions);
-  });
-})(document);
-(function(d) {
-  d.querySelectorAll(".pseudocode-container").forEach(function(el) {
-    titleSpan = el.querySelector(".ps-root > .ps-algorithm > .ps-line > .ps-keyword")
-    titlePrefix = el.dataset.algTitle;
-    titleIndex = el.dataset.chapterLevel ? el.dataset.chapterLevel + "." + el.dataset.pseudocodeIndex : el.dataset.pseudocodeIndex;
-    titleSpan.innerHTML = titlePrefix + " " + titleIndex + " ";
-  });
-})(document);
-</script>
+    <script type="text/javascript">
+    (function(d) {
+      d.querySelectorAll(".pseudocode-container").forEach(function(el) {
+        let pseudocodeOptions = {
+          indentSize: el.dataset.indentSize || "1.2em",
+          commentDelimiter: el.dataset.commentDelimiter || "//",
+          lineNumber: el.dataset.lineNumber === "true" ? true : false,
+          lineNumberPunc: el.dataset.lineNumberPunc || ":",
+          noEnd: el.dataset.noEnd === "true" ? true : false,
+          titlePrefix: el.dataset.captionPrefix || "Algorithm"
+        };
+        pseudocode.renderElement(el.querySelector(".pseudocode"), pseudocodeOptions);
+      });
+    })(document);
+    (function(d) {
+      d.querySelectorAll(".pseudocode-container").forEach(function(el) {
+        let captionSpan = el.querySelector(".ps-root > .ps-algorithm > .ps-line > .ps-keyword")
+        if (captionSpan !== null) {
+          let captionPrefix = el.dataset.captionPrefix + " ";
+          let captionNumber = "";
+          if (el.dataset.pseudocodeNumber) {
+            captionNumber = el.dataset.pseudocodeNumber + " ";
+            if (el.dataset.chapterLevel) {
+              captionNumber = el.dataset.chapterLevel + "." + captionNumber;
+            }
+          }
+          captionSpan.innerHTML = captionPrefix + captionNumber;
+        }
+      });
+    })(document);
+    </script>
+  
 
 
 
