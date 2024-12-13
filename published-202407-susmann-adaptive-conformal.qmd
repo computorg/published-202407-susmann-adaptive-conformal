@@ -36,7 +36,7 @@ citation:
   type: article-journal
   container-title: "Computo"
   doi: "10.57750/edan-5f53"
-  url: https://computo.sfds.asso.fr/template-computo-quarto
+  url: http://computo.sfds.asso.fr/published-202407-susmann-adaptive-conformal/
   publisher: "Société Française de Statistique"
   issn: "2824-7795"
 bibliography: references.bib
