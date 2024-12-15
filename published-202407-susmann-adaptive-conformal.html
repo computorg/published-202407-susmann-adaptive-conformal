@@ -283,7 +283,7 @@ ISSN 2824-7795</p>
       <div>
       <div class="quarto-title-meta-heading">Modified</div>
       <div class="quarto-title-meta-contents">
-        <p class="date-modified">December 13, 2024</p>
+        <p class="date-modified">December 15, 2024</p>
       </div>
     </div>
       
@@ -567,7 +567,7 @@ y_t &amp;\sim N(0, \sigma_t^2), \quad t \in \llbracket T \rrbracket, \\
 </span> For demonstration purposes we assume we have access to unbiased predictions <span class="math inline">\hat{\mu}_t = 0</span> for all <span class="math inline">t \in \llbracket T \rrbracket</span>. Throughout we set the target empirical coverage to <span class="math inline">\alpha = 0.8</span>.</p>
 <section id="adaptive-conformal-inference-aci" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="adaptive-conformal-inference-aci"><span class="header-section-number">3.1</span> Adaptive Conformal Inference (ACI)</h2>
-<div id="algo-aci" class="pseudocode-container quarto-float" data-line-number="true" data-line-number-punc=":" data-indent-size="1.2em" data-caption-prefix="Algorithm" data-no-end="false" data-pseudocode-number="1" data-comment-delimiter="//">
+<div id="algo-aci" class="pseudocode-container quarto-float" data-pseudocode-number="1" data-no-end="false" data-comment-delimiter="//" data-caption-prefix="Algorithm" data-indent-size="1.2em" data-line-number-punc=":" data-line-number="true">
 <div class="pseudocode">
 \begin{algorithm} \caption{Adaptive Conformal Inference} \begin{algorithmic} \State \textbf{Input:} starting value $\theta_1$, learning rate $\gamma &gt; 0$. \For{$t = 1, 2, \dots, T$} \State \textbf{Output:} prediction interval $\widehat{C}_t(\theta_t)$. \State Observe $y_t$. \State Evaluate $\mathrm{err}_t = \mathbb{I}[y_t \not\in \widehat{C}_t(\theta_t)]$. \State Update $\theta_{t+1} = \theta_t + \gamma (\mathrm{err}_t - (1 - \alpha))$. \EndFor \end{algorithmic} \end{algorithm}
 </div>
@@ -619,7 +619,7 @@ Figure&nbsp;1: Example 80% prediction intervals from the ACI algorithm for diffe
 </section>
 <section id="aggregated-adaptive-conformal-inference-agaci" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="aggregated-adaptive-conformal-inference-agaci"><span class="header-section-number">3.2</span> Aggregated Adaptive Conformal Inference (AgACI)</h2>
-<div id="algo-agaci" class="pseudocode-container quarto-float" data-line-number="true" data-line-number-punc=":" data-indent-size="1.2em" data-caption-prefix="Algorithm" data-no-end="false" data-pseudocode-number="2" data-comment-delimiter="//">
+<div id="algo-agaci" class="pseudocode-container quarto-float" data-pseudocode-number="2" data-no-end="false" data-comment-delimiter="//" data-caption-prefix="Algorithm" data-indent-size="1.2em" data-line-number-punc=":" data-line-number="true">
 <div class="pseudocode">
 \begin{algorithm} \caption{Aggregated Adaptive Conformal Inference} \begin{algorithmic} \State \textbf{Input:} candidate learning rates $(\gamma_k)_{1 \leq k \leq K }$, starting value $\theta_1$. \State Initialize lower and upper BOA algorithms $\mathcal{B}^\ell := \texttt{BOA}(\alpha \leftarrow (1 - \alpha) / 2)$ and $\mathcal{B}^u := \texttt{BOA}(\alpha \leftarrow (1 - (1 - \alpha)/2))$. \For{$k = 1, \dots, K$} \State Initialize ACI $\mathcal{A}_k = \texttt{ACI}(\alpha \leftarrow \alpha, \gamma \leftarrow \gamma_k, \theta_1 \leftarrow \theta_1)$. \EndFor \For{$t = 1, 2, \dots, T$} \For{$k = 1, \dots, K$} \State Retrieve candidate prediction interval $[\ell^k_{t}, u^k_{t}]$ from $\mathcal{A}_k$. \EndFor \State Compute aggregated lower bound $\tilde{\ell}_t := \mathcal{B}^\ell((\ell^k_t : k \in \{ 1, \dots, K \}))$. \State Compute aggregated upper bound $\tilde{u}_t := \mathcal{B}^u((u^k_t : k \in \{ 1, \dots, K \}))$. \State \textbf{Output:} prediction interval $[\tilde{\ell}_t, \tilde{u}_t]$. \State Observe $y_t$. \For{$k = 1, \dots, K$} \State Update $\mathcal{A}_k$ with observation $y_t$. \EndFor \State Update $\mathcal{B}^\ell$ with observed outcome $y_t$. \State Update $\mathcal{B}^u$ with observed outcome $y_t$. \EndFor \end{algorithmic} \end{algorithm}
 </div>
@@ -650,7 +650,7 @@ Figure&nbsp;2: Example 80% prediction intervals from the AgACI algorithm with st
 </section>
 <section id="dynamically-tuned-adaptive-conformal-inference-dtaci" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="dynamically-tuned-adaptive-conformal-inference-dtaci"><span class="header-section-number">3.3</span> Dynamically-tuned Adaptive Conformal Inference (DtACI)</h2>
-<div id="algo-faci" class="pseudocode-container quarto-float" data-line-number="true" data-line-number-punc=":" data-indent-size="1.2em" data-caption-prefix="Algorithm" data-no-end="false" data-pseudocode-number="3" data-comment-delimiter="//">
+<div id="algo-faci" class="pseudocode-container quarto-float" data-pseudocode-number="3" data-no-end="false" data-comment-delimiter="//" data-caption-prefix="Algorithm" data-indent-size="1.2em" data-line-number-punc=":" data-line-number="true">
 <div class="pseudocode">
 \begin{algorithm} \caption{Dynamically-tuned Adaptive Conformal Inference} \begin{algorithmic} \State \textbf{Input:} starting value $\theta_1$, candidate learning rates $(\gamma_k)_{1 \leq k \leq K }$, parameters $\sigma, \eta$. \For{$k = 1, \dots, K$} \State Initialize expert $\mathcal{A}_k = \texttt{ACI}(\alpha \leftarrow \alpha, \gamma \leftarrow \gamma_k, \theta_1 \leftarrow \theta_1)$. \EndFor \For{$t = 1, 2, \dots, T$} \State Define $p_t^k := p_t^k / \sum_{i=1}^K p_t^i$, for all $1 \leq k \leq K$. \State Set $\theta_t = \sum_{k=1}^K \theta_t^k p_t^k$. \State \textbf{Output:} prediction interval $\widehat{C}_t(\theta_t)$. \State Observe $y_t$ and compute $r_t$. \State $\bar{w}_{t}^k \gets p_t^k \exp(-\eta L^\alpha(\theta_t^k, r_t))$, for all $1 \leq k \leq K$. \State $\bar{W}_t \gets \sum_{i=1}^K \bar{w}_t^i$. \State $p_{t+1}^k \gets (1 - \sigma) \bar{w}_t^k + \bar{W}_t \sigma / K$. \State Set $\mathrm{err}_t := \mathbb{I}[y_t \not\in \widehat{C}_t(\theta_t)]$. \For{$k = 1, \dots, K$} \State Update ACI $\mathcal{A}_k$ with $y_t$ and obtain $\theta_{t+1}^k$. \EndFor \EndFor \end{algorithmic} \end{algorithm}
 </div>
@@ -703,7 +703,7 @@ Figure&nbsp;3: Example 80% prediction intervals generated by the DtACI algorithm
 </section>
 <section id="scale-free-online-gradient-descent-sf-ogd" class="level2" data-number="3.4">
 <h2 data-number="3.4" class="anchored" data-anchor-id="scale-free-online-gradient-descent-sf-ogd"><span class="header-section-number">3.4</span> Scale-Free Online Gradient Descent (SF-OGD)</h2>
-<div id="algo-sfogd" class="pseudocode-container quarto-float" data-line-number="true" data-line-number-punc=":" data-indent-size="1.2em" data-caption-prefix="Algorithm" data-no-end="false" data-pseudocode-number="4" data-comment-delimiter="//">
+<div id="algo-sfogd" class="pseudocode-container quarto-float" data-pseudocode-number="4" data-no-end="false" data-comment-delimiter="//" data-caption-prefix="Algorithm" data-indent-size="1.2em" data-line-number-punc=":" data-line-number="true">
 <div class="pseudocode">
 \begin{algorithm} \caption{Scale-Free Online Gradient Descent} \begin{algorithmic} \State \textbf{Input:} starting value $\theta_1$, learning rate $\gamma &gt; 0$. \For{$t = 1, 2, \dots, T$} \State \textbf{Output:} prediction interval $\widehat{C}_t(\theta_t)$. \State Observe $y_t$ and compute $r_t$. \State Update $\theta_{t+1} = \theta_t - \gamma \frac{\nabla L^\alpha(\theta_t, r_t)}{\sqrt{\sum_{i=1}^t} \| \nabla L^\alpha(\theta_i, r_i) \|_2^2}$. \EndFor \end{algorithmic} \end{algorithm}
 </div>
@@ -742,7 +742,7 @@ Figure&nbsp;4: Example 80% prediction intervals generated by the SF-OGD algorith
 </section>
 <section id="strongly-adaptive-online-conformal-prediction-saocp" class="level2" data-number="3.5">
 <h2 data-number="3.5" class="anchored" data-anchor-id="strongly-adaptive-online-conformal-prediction-saocp"><span class="header-section-number">3.5</span> Strongly Adaptive Online Conformal Prediction (SAOCP)</h2>
-<div id="algo-saocp" class="pseudocode-container quarto-float" data-line-number="true" data-line-number-punc=":" data-indent-size="1.2em" data-caption-prefix="Algorithm" data-no-end="false" data-pseudocode-number="5" data-comment-delimiter="//">
+<div id="algo-saocp" class="pseudocode-container quarto-float" data-pseudocode-number="5" data-no-end="false" data-comment-delimiter="//" data-caption-prefix="Algorithm" data-indent-size="1.2em" data-line-number-punc=":" data-line-number="true">
 <div class="pseudocode">
 \begin{algorithm} \caption{Strongly Adaptive Online Conformal Prediction} \begin{algorithmic} \State \textbf{Input:} initial value $\theta_0$, learning rate $\gamma &gt; 0$. \For{$t = 1, 2, \dots, T$} \State Initialize expert $\mathcal{A}_t = \texttt{SF-OGD}(\alpha \leftarrow \alpha, \gamma \leftarrow \gamma, \theta_1 \leftarrow \theta_{t-1})$, set weight $p_t^t = 0$. \State Compute active set $\mathrm{Active}(t) = \{ i \in \llbracket T \rrbracket : t - L(i) &lt; i \leq t \}$ (see below for definition of $L(t)$). \State Compute prior probability $\pi_i \propto i^{-2} (1 + \lfloor \log_2 i \rfloor )^{-1} \mathbb{I}[i \in \mathrm{Active}(t)]$. \State Compute un-normalized probability $\hat{p}_i = \pi_i [p_{t,i}]_+$ for all $i \in \llbracket t \rrbracket$. \State Normalize $p = \hat{p} / \| \hat{p} \|_1 \in \Delta^t$ if $\| \hat{p} \|_1 &gt; 0$, else $p = \pi$. \State Set $\theta_t = \sum_{i \in \mathrm{Active}(t)} p_i \theta_t^i$ (for $t \geq 2$), and $\theta_t = 0$ for $t = 1$. \State \textbf{Output:} prediction set $\widehat{C}_t(\theta_t)$. \State Observe $y_t$ and compute $r_t$. \For{$i \in \mathrm{Active}(t)$} \State Update expert $\mathcal{A}_t$ with $y_t$ and obtain $\theta_{t+1}^i$. \State Compute $g_t^i = \begin{cases} \frac{1}{D}\left(L^\alpha(\theta_t, r_t) - L^\alpha(\theta_t^i, r_t)\right) &amp; p_t^i &gt; 0 \\ \frac{1}{D}\left[L^\alpha(\theta_t, r_t) - L^\alpha(\theta_t^i, r_t))\right]_+ &amp; p_t^i \leq 0 \\ \end{cases}$. \State Update expert weight $p_{t+1}^i = \frac{1}{t - i + 1}\left( \sum_{j=i}^t g_j^i \right) \left(1 + \sum_{j=i}^t p_j^i g_j^i \right)$. \EndFor \EndFor \end{algorithmic} \end{algorithm}
 </div>
