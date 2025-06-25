@@ -173,6 +173,32 @@ A high path length indicates that the prediction intervals were variable over ti
 
 # Algorithms {#sec-algorithms}
 
++------------------------------------------------------------+------------------------------------------------------------------------------------+
+| Algorithm                                                  | Features                                                                           |
++:===========================================================+:===================================================================================+
+| **Adaptive Conformal Inference (ACI)**                     | - Tuning parameters: learning rate $\gamma$                                        |
+| @gibbs2021adaptive                                         | - Original interval constructor: quantile                                          |
+|                                                            | - Theoretical guarantees: coverage error, regret                                   |
++------------------------------------------------------------+------------------------------------------------------------------------------------+
+| **Aggregated Adaptive Conformal Inference (AgACI)**        | - Tuning parameters: candidate learning rates $(\gamma_k)_{1 \leq k \leq K}$       |
+| @zaffran2022agaci                                          | - Original interval constructor: quantile                                          |
++------------------------------------------------------------+------------------------------------------------------------------------------------+
+| **Dynamically-tuned Adaptive Conformal Inference (DtACI)** | - Tuning parameters: candidate learning rates $(\gamma_k)_{1 \leq k \leq K}$       |
+| @gibbs2022faci                                             | - Original interval constructor: quantile                                          |
+|                                                            | - Theoretical guarantees: coverage error, strongly adaptive regret, dynamic regret |
++------------------------------------------------------------+------------------------------------------------------------------------------------+
+| **Scale-Free Online Gradient Descent (SF-OGD)**            | - Tuning parameters: learning rate $\gamma$ or maximum radius $D$                  |
+| @bhatnagar2023saocp                                        | - Original interval constructor: linear                                            |
+|                                                            | - Theoretical guarantees: coverage error, anytime regret                           |
++------------------------------------------------------------+------------------------------------------------------------------------------------+
+| **Strongly Adaptive Online Conformal Prediction (SAOCP)**  | - Tuning parameters: learning rate $\gamma$, lifetime multiplier $g$               |
+| @bhatnagar2023saocp                                        | - Original interval constructor: linear                                            |
+|                                                            | - Theoretical guarantees: coverage error, strongly adaptive regret                 |
++------------------------------------------------------------+------------------------------------------------------------------------------------+
+: Summary of ACI algorithms. Only the theoretical guarantees discussed in this paper are shown for each algorithm.  {#tbl-aci .striped .bordered .hover}
+
+<!-- 
+
 | Algorithm |
 | ------------------------------------------------------|
 | **Adaptive Conformal Inference (ACI)** |
@@ -199,7 +225,7 @@ A high path length indicates that the prediction intervals were variable over ti
 | - Original interval constructor: linear  |
 | - Theoretical guarantees: coverage error, strongly adaptive regret  |
 | - Citation: @bhatnagar2023saocp  |
-: Summary of ACI algorithms. Only the theoretical guarantees discussed in this paper are shown for each algorithm.  {#tbl-aci}
+: Summary of ACI algorithms. Only the theoretical guarantees discussed in this paper are shown for each algorithm.  {#tbl-aci} -->
 
 As a simple running example to illustrate each algorithm, we simulate independently $T = 500$ values $y_1, \dots, y_T$ following
 $$
