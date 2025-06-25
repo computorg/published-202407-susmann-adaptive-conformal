@@ -27,8 +27,6 @@ author:
         url: https://team.inria.fr/premedical/
 date: 07-18-2024
 date-modified: last-modified
-description: |
-  Conformal Inference (CI) is a popular approach for generating finite sample prediction intervals based on the output of any point prediction method when data are exchangeable. Adaptive Conformal Inference (ACI) algorithms extend CI to the case of sequentially observed data, such as time series, and exhibit strong theoretical guarantees without having to assume exchangeability of the observed data. The common thread that unites algorithms in the ACI family is that they adaptively adjust the width of the generated prediction intervals in response to the observed data. We provide a detailed description of five ACI algorithms and their theoretical guarantees, and test their performance in simulation studies. We then present a case study of producing prediction intervals for influenza incidence in the United States based on black-box point forecasts. Implementations of all the algorithms are released as an open-source `R` package, `AdaptiveConformal`, which also includes tools for visualizing and summarizing conformal prediction intervals.
 abstract: >+
   Conformal Inference (CI) is a popular approach for generating finite sample prediction intervals based on the output of any point prediction method when data are exchangeable. Adaptive Conformal Inference (ACI) algorithms extend CI to the case of sequentially observed data, such as time series, and exhibit strong theoretical guarantees without having to assume exchangeability of the observed data. The common thread that unites algorithms in the ACI family is that they adaptively adjust the width of the generated prediction intervals in response to the observed data. We provide a detailed description of five ACI algorithms and their theoretical guarantees, and test their performance in simulation studies. We then present a case study of producing prediction intervals for influenza incidence in the United States based on black-box point forecasts. Implementations of all the algorithms are released as an open-source `R` package, `AdaptiveConformal`, which also includes tools for visualizing and summarizing conformal prediction intervals.
 keywords: [Conformal inference, Adaptive conformal inference, time series, R]
@@ -36,8 +34,7 @@ citation:
   type: article-journal
   container-title: "Computo"
   doi: "10.57750/edan-5f53"
-  url: http://computo.sfds.asso.fr/published-202407-susmann-adaptive-conformal/
-  publisher: "Société Française de Statistique"
+  publisher: "French Statistical Society"
   issn: "2824-7795"
 bibliography: references.bib
 github-user: computorg
@@ -176,6 +173,32 @@ A high path length indicates that the prediction intervals were variable over ti
 
 # Algorithms {#sec-algorithms}
 
++------------------------------------------------------------+------------------------------------------------------------------------------------+
+| Algorithm                                                  | Features                                                                           |
++:===========================================================+:===================================================================================+
+| **Adaptive Conformal Inference (ACI)**                     | - Tuning parameters: learning rate $\gamma$                                        |
+| @gibbs2021adaptive                                         | - Original interval constructor: quantile                                          |
+|                                                            | - Theoretical guarantees: coverage error, regret                                   |
++------------------------------------------------------------+------------------------------------------------------------------------------------+
+| **Aggregated Adaptive Conformal Inference (AgACI)**        | - Tuning parameters: candidate learning rates $(\gamma_k)_{1 \leq k \leq K}$       |
+| @zaffran2022agaci                                          | - Original interval constructor: quantile                                          |
++------------------------------------------------------------+------------------------------------------------------------------------------------+
+| **Dynamically-tuned Adaptive Conformal Inference (DtACI)** | - Tuning parameters: candidate learning rates $(\gamma_k)_{1 \leq k \leq K}$       |
+| @gibbs2022faci                                             | - Original interval constructor: quantile                                          |
+|                                                            | - Theoretical guarantees: coverage error, strongly adaptive regret, dynamic regret |
++------------------------------------------------------------+------------------------------------------------------------------------------------+
+| **Scale-Free Online Gradient Descent (SF-OGD)**            | - Tuning parameters: learning rate $\gamma$ or maximum radius $D$                  |
+| @bhatnagar2023saocp                                        | - Original interval constructor: linear                                            |
+|                                                            | - Theoretical guarantees: coverage error, anytime regret                           |
++------------------------------------------------------------+------------------------------------------------------------------------------------+
+| **Strongly Adaptive Online Conformal Prediction (SAOCP)**  | - Tuning parameters: learning rate $\gamma$, lifetime multiplier $g$               |
+| @bhatnagar2023saocp                                        | - Original interval constructor: linear                                            |
+|                                                            | - Theoretical guarantees: coverage error, strongly adaptive regret                 |
++------------------------------------------------------------+------------------------------------------------------------------------------------+
+: Summary of ACI algorithms. Only the theoretical guarantees discussed in this paper are shown for each algorithm.  {#tbl-aci .striped .bordered .hover}
+
+<!-- 
+
 | Algorithm |
 | ------------------------------------------------------|
 | **Adaptive Conformal Inference (ACI)** |
@@ -202,7 +225,7 @@ A high path length indicates that the prediction intervals were variable over ti
 | - Original interval constructor: linear  |
 | - Theoretical guarantees: coverage error, strongly adaptive regret  |
 | - Citation: @bhatnagar2023saocp  |
-: Summary of ACI algorithms. Only the theoretical guarantees discussed in this paper are shown for each algorithm.  {#tbl-aci}
+: Summary of ACI algorithms. Only the theoretical guarantees discussed in this paper are shown for each algorithm.  {#tbl-aci} -->
 
 As a simple running example to illustrate each algorithm, we simulate independently $T = 500$ values $y_1, \dots, y_T$ following
 $$
