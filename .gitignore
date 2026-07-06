@@ -1,29 +1,49 @@
+# R and co
 .Rhistory
 .Rprofile
 .Rapp.history
 .RData
 .Ruserdata
-/*.Rcheck/
-.Rproj.user/
 *.Rproj
+.Rproj.user
+.Rproj.user/
+/*.Rcheck/
 renv/
 
-*.swp
-_build
+# Python and co
+_environment
+/.micromamba/
+/.joblib
+/.pytest_cache/
+scripts/__pycache__/
+
+# Quarto tmp files
 /.quarto/
-_extensions/
-content_files/
-/.luarc.json
 /*_files
 /*_cache
 /_freeze
-*_cache/
-/cache/
-*_files/
-*.DS_Store
-
 _site/
-logo_notext_white.png
+/cache/
+
+# Quarto extension files
+_extensions/
 logo_text_white.pdf
-published-202407-susmann-adaptive-conformal.pdf
-published-202407-susmann-adaptive-conformal.html
+logo_notext_white.png
+
+# Quarto output files
+main.pdf
+main.html
+main.ipynb
+main.tex
+
+# Latex compilation files
+*.aux
+*.log
+*.toc
+
+# Various system files
+DS_Store
+/.luarc.json
+
+
+**/*.quarto_ipynb
