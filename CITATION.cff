@@ -1,0 +1,44 @@
+cff-version: 1.2.0
+message: If you use or cite this article, please use the metadata provided in 'preferred-citation'.
+title: 'AdaptiveConformal: An `R` Package for Adaptive Conformal Inference'
+authors:
+- family-names: Susmann
+  given-names: Herbert
+  orcid: https://orcid.org/0000-0002-3540-8255
+  affiliation: CEREMADE (UMR 7534), Université Paris-Dauphine PSL, Place du Maréchal
+    de Lattre de Tassigny, Paris, 75016, France
+- family-names: Chambaz
+  given-names: Antoine
+  orcid: https://orcid.org/0000-0002-5592-6471
+  affiliation: Université Paris Cité, CNRS, MAP5, F-75006 Paris, France
+- family-names: Josse
+  given-names: Julie
+  orcid: https://orcid.org/0000-0001-9547-891X
+  affiliation: Inria PreMeDICaL team, Idesp, Université de Montpellier
+url: https://computo-journal.org/published-202407-susmann-adaptive-conformal/
+preferred-citation:
+  type: article
+  title: 'AdaptiveConformal: An `R` Package for Adaptive Conformal Inference'
+  authors:
+  - family-names: Susmann
+    given-names: Herbert
+    orcid: https://orcid.org/0000-0002-3540-8255
+    affiliation: CEREMADE (UMR 7534), Université Paris-Dauphine PSL, Place du Maréchal
+      de Lattre de Tassigny, Paris, 75016, France
+  - family-names: Chambaz
+    given-names: Antoine
+    orcid: https://orcid.org/0000-0002-5592-6471
+    affiliation: Université Paris Cité, CNRS, MAP5, F-75006 Paris, France
+  - family-names: Josse
+    given-names: Julie
+    orcid: https://orcid.org/0000-0001-9547-891X
+    affiliation: Inria PreMeDICaL team, Idesp, Université de Montpellier
+  journal: Computo
+  issn: 2824-7795
+  url: https://computo-journal.org/published-202407-susmann-adaptive-conformal/
+  publisher:
+    name: French Statistical Society
+  doi: 10.57750/edan-5f53
+  year: 2024
+doi: 10.57750/edan-5f53
+date-released: '2024-07-01'
