@@ -41,6 +41,7 @@ citation:
   issn: "2824-7795"
   url: "https://computo-journal.org/published-202407-susmann-adaptive-conformal/"
   issued: "2024-07-18"
+google-scholar: true
 related-identifiers:
   - relation: IsVersionOf
     type: arXiv
