@@ -52,3 +52,16 @@ related-identifiers:
     identifier: "https://hal.science/hal-04316544"
 github-user: computorg
 repo: "published-202407-susmann-adaptive-conformal"
+subtitle: "AdaptiveConformal: An `R` Package for Adaptive Conformal Inference"
+date-modified: last-modified
+keywords: [Conformal inference, Adaptive conformal inference, time series, R]
+bibliography: references.bib
+format:
+  computo-html:
+    code-fold: true
+  computo-pdf:
+    keep-tex: true
+    include-in-header:
+      - text: |
+          \usepackage{stmaryrd}
+          \usepackage{xfrac}
